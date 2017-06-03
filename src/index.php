@@ -8,7 +8,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="viewport" content="width=device-width">
-    <link rel="shortcut icon" type="image/x-icon" href="/pras_pc.ico">
+    <link rel="shortcut icon" type="image/x-icon" href="img/pras_pc.ico">
     <link rel="shortcut icon" type="image/png" href="img/Circle-icons-computer.svg.png">
     <link href='http://fonts.googleapis.com/css?family=Open+Sans:400italic,400,700' rel='stylesheet' type='text/css'>
     <link rel="stylesheet" href="css/login_style.css">
@@ -53,7 +53,7 @@
             </div>
 
 
-        </div>
+        </div> 
     </div>
     <br>
 </div>
