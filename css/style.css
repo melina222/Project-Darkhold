@@ -1,0 +1,83 @@
+.grid {
+    float: left;
+    padding-left: 3em; /* this is your gutter between columns */
+    width: 100%;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+}
+
+.image-logo {
+    float: left;
+    width: 146px;
+    height: 163px;
+    padding: 10px 10px 0px 10px;
+    max-width: 100%;
+}
+
+.col-full {
+    width: 100%;
+}
+
+.leave-bottom-gap {
+    margin-bottom: 100px
+}
+
+.leave-top-gap {
+    margin-top: 70px;
+}
+
+hr {
+    border-top: 1px solid #333;
+}
+
+body {
+    width: 100%;
+    margin: 5em auto;
+    max-width: 1100px;
+    min-width: 300px;
+}
+
+header#navtop {
+    background: url(../img/stripes.png) no-repeat 30% 0;
+    margin-bottom: -1em;
+    padding-top: 0px;
+    margin-top: 35px;
+    clear: both;
+    overflow: hidden;
+}
+
+header h2 {
+    font: 100% arimo, "Trebuchet MS", verdana, sans-serif;
+    font-size: 2.5em;
+    margin: 15px 0 15px 10px;
+    letter-spacing: -0.05em;
+    color: #373e40;
+    line-height: 1;
+    padding: 0;
+}
+
+header h4 {
+    font: 100% arimo, "Trebuchet MS", verdana, sans-serif;
+    color: #373e40;
+    font-size: 1.5em;
+    background: inherit;
+    margin: 5px 0 5px 10px;
+    padding: 0;
+}
+
+.container-font-size {
+    font-size: 13px;
+}
+
+#footer {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    left: 0;
+    text-align: center;
+    clear: both;
+    font-size: 1em;
+    color: #eee;
+    background: #373e40;
+}
