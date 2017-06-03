@@ -39,7 +39,7 @@ body {
 }
 
 header#navtop {
-    background: url(../img/stripes.png) no-repeat 30% 0;
+    /*background: url(../img/stripes.png) no-repeat 30% 0;*/
     margin-bottom: -1em;
     padding-top: 0px;
     margin-top: 35px;
