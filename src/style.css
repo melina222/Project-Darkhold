@@ -1,3 +1,31 @@
 .page_content {
-    margin-top: 100px;
+    margin-top: 150px;
+}
+
+.nav-bar-logo-position {
+    padding-top: 24px;
+}
+
+.nav-bar-height {
+    height: 100px;
+}
+
+.nav-bar-brand {
+    width: 300px;
+}
+
+.nav-bar-form{
+    padding-top: 18px;
+
+}
+footer {
+    background-color: #373e40;
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    color: #ffffff;
+    height: 60px;
+    text-align: center;
+    width: 100%;
+    overflow: hidden;
 }
