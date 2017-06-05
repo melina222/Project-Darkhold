@@ -1,6 +1,5 @@
 <html>
 <head>
-    ad>
     <?php
     include_once "page_parts/head.php";
     ?>
@@ -13,7 +12,7 @@ include_once "page_parts/header.php";
     <form>
 
         <div class="form-group">
-            <label for="emailPass">Κωδικος επιβεβαιωσης με email:</label>
+            <label for="emailPass">Κωδικός επιβεβαίωσης με email:</label>
             <input type="text" class="form-control" id="emailPass" name="emailPass" placeholder="Email password">
         </div>
 
@@ -25,7 +24,7 @@ include_once "page_parts/header.php";
             </select>
         </div>
 
-        <button type="submit" name="register" class="btn btn-primary">Ολοκληρωση εγγραφης</button>
+        <button type="submit" name="register" class="btn btn-primary">Ολοκλήρωση εγγραφής</button>
     </form>
 </div>
 </body>

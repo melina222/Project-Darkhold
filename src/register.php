@@ -34,13 +34,13 @@ include_once "page_parts/header.php";
             <label for="rpassword">Επανάληψη Κωδικού:</label>
             <input type="password" class="form-control" id="rpassword" name="rpassword" placeholder="Re-enter Password">
         </div>
-       <!-- <div class="form-group">
-            <label for="id_role">Ρόλος:</label>
-            <select type="text" id="role" name="role">
-                <option value="1">Καθηγητής</option>
-                <option value="2">Φοιτητής</option>
-            </select>
-        </div>-->
+        <!-- <div class="form-group">
+             <label for="id_role">Ρόλος:</label>
+             <select type="text" id="role" name="role">
+                 <option value="1">Καθηγητής</option>
+                 <option value="2">Φοιτητής</option>
+             </select>
+         </div>-->
         <button type="submit" name="register" class="btn btn-primary">Εγγραφή</button>
 
     </form>
@@ -58,16 +58,16 @@ if ($_SERVER['REQUEST_METHOD'] == "POST" && isset($_POST['register'])) {
     $username = mysqli_real_escape_string($link, $_POST['username']);
     $password = mysqli_real_escape_string($link, $_POST['password']);
     $rpassword = mysqli_real_escape_string($link, $_POST['rpassword']);
-  /*  $role = mysqli_real_escape_string($link, $_POST['role']);*/
+    /*  $role = mysqli_real_escape_string($link, $_POST['role']);*/
 
     if (empty($fname) || empty($lname) || (empty($username)) || empty($password) || empty($rpassword)) {
-        showAlertDialogMethod('Πρέπει να συμπληρώσετε τα υποχρεωτικά πεδία (με τον αστερίσκο *)', 'error');
+        showAlertDialogMethod('Πρέπει να συμπληρώσετε όλα πεδία.', 'error');
         //header("Location: register.php");
         exit();
     }
 
     if ($password != $rpassword) {
-        showAlertDialogMethod("Οι κωδικοι πρέπει να ταιριαζουν");
+        showAlertDialogMethod("Οι κωδικοί πρέπει να ταιριάζουν");
         //header("Location: register.php");
         exit();
     }
