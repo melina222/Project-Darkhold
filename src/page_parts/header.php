@@ -1,7 +1,7 @@
 <?php
 session_start();
 include_once "utilities/connectWithDB.php";
-include_once "utilities/methods.php"; 
+include_once "utilities/methods.php";
 $_SESSION['user_role'] = 'student';
 $_SESSION['login_state'] = false;
 ?>
