@@ -9,8 +9,6 @@
 include_once "page_parts/header.php";
 ?>
 
-
-
 <div class="page_content">
     <div class="grid col-one-half mq2-col-full">
         <h1>Σύστημα Δήλωσης <br>
@@ -31,7 +29,7 @@ include_once "page_parts/header.php";
 </div>
 
 <?php
-include_once "page_parts/footer.php"
+include_once "page_parts/footer.php";
 ?>
 </body>
 </html>

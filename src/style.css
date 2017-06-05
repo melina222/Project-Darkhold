@@ -1,23 +1,7 @@
 .page_content {
-    margin-top: 150px;
+    margin-top: 80px;
 }
 
-.nav-bar-logo-position {
-    padding-top: 24px;
-}
-
-.nav-bar-height {
-    height: 100px;
-}
-
-.nav-bar-brand {
-    width: 300px;
-}
-
-.nav-bar-form{
-    padding-top: 18px;
-
-}
 footer {
     background-color: #373e40;
     position: absolute;

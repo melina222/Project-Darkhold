@@ -10,7 +10,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST" && isset($_POST['login'])) {
 //action="register.php"method="post" enctype="multipart/form-data"
 ?>
 
-<form action="#" method="post"  enctype="multipart/form-data" class="navbar-form navbar-right nav-bar-form">
+<form action="#" method="post" enctype="multipart/form-data" class="navbar-form navbar-right">
     <div class="form-group">
         <input type="text" placeholder="Username" name="username" id="username" class="form-control">
     </div>
