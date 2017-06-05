@@ -1,7 +1,7 @@
 <?php
 session_start();
 include_once "utilities/connectWithDB.php";
-include_once "utilities/methods.php";
+include_once "utilities/methods.php"; 
 $_SESSION['user_role'] = 'student';
 $_SESSION['login_state'] = false;
 ?>
@@ -15,7 +15,7 @@ $_SESSION['login_state'] = false;
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <?php 
+            <?php
             if ($_SESSION['login_state'] == true) {
                 if (isset($_SESSION['user_role']) && !empty($_SESSION['user_role'])) {
                     if ($_SESSION['user_role'] == 'teacher') {
