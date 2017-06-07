@@ -3,11 +3,22 @@ if ($_SERVER['REQUEST_METHOD'] == "POST" && isset($_POST['login'])) {
 
     $username = mysqli_real_escape_string($link, $_POST['username']);
     $password = mysqli_real_escape_string($link, $_POST['password']);
-
-    showAlertDialogMethod("log in clicked biatch");
-
+    $user = get_user_by_username($link, $username);
+    if ($user == null) {
+        showAlertDialogMethod("Λανθασμενα στοιχεία");
+    } else {
+        if ($user->password == md5($password)) {
+            showAlertDialogMethod("Επιτυχής σύνδεση");
+            $_SESSION['fname'] = $user->name;
+            $_SESSION['lname'] = $user->surname;
+            $_SESSION['email'] = $user->email;
+            $_SESSION['username'] = $user->username;
+            $_SESSION['role'] = get_role_string($user->role);
+            $_SESSION['login_state'] = true;
+        } else
+            showAlertDialogMethod("Λανθασμενα στοιχεία");
+    }
 }
-//action="register.php"method="post" enctype="multipart/form-data"
 ?>
 
 <form action="#" method="post" enctype="multipart/form-data" class="navbar-form navbar-right">

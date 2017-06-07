@@ -72,23 +72,21 @@ if ($_SERVER['REQUEST_METHOD'] == "POST" && isset($_POST['register'])) {
         exit();
     }
 
-    $result = add_user($link, $fname, $lname, $email, $username, $password);
+    // TODO Create random confirmation password
+    $randomPassword = generateRandomString();
+    //showAlertDialogMethod($randomPassword);
+    // TODO Send email with verification code
+    sendEmail($email, $randomPassword);
+    // TODO Add to session
+    $_SESSION['confirmation_code'] = $randomPassword;
+    $_SESSION['fname'] = $fname;
+    $_SESSION['lname'] = $lname;
+    $_SESSION['email'] = $email;
+    $_SESSION['username'] = $username;
+    $_SESSION['password'] = $password;
 
-    if ($result != -1) {
-        mysqli_commit($link);
-        // TODO Create random confirmation password
-        $randomPassword = generateRandomString();
-        // TODO Send email with verification code
-        sendEmail($email, $randomPassword);
-        // TODO Add to session
-        $_SESSION['confirmation_code'] = $randomPassword;
-        $_SESSION['inserted_user_id'] = $result;
-        // TODO Redirect to post register page
-        header("Location: post_register.php");
-        exit();
-    } else {
-        mysqli_rollback($link);
-        showAlertDialogMethod('Τα στοιχεία δεν καταχωρήθηκαν λόγω προβλήματος στην βάση του συστήματος.', 'error');
-    }
+    // TODO Redirect to post register page
+    redirect("post_register.php");
+    exit();
 }
 ?>

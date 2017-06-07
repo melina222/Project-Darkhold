@@ -8,8 +8,52 @@
 <?php
 include_once "page_parts/header.php";
 ?>
+
+<?php
+
+session_start();
+
+if ($_SERVER['REQUEST_METHOD'] == "POST" && isset($_POST['register'])) {
+
+    $randomPassword = $_SESSION['confirmation_code'];
+    $fname = $_SESSION['fname'];
+    $lname = $_SESSION['lname'];
+    $email = $_SESSION['email'];
+    $username = $_SESSION['username'];
+    $password = $_SESSION['password'];
+
+    //showAlertDialogMethod($fname . $lname . "<");
+
+    $emailPass = mysqli_real_escape_string($link, $_POST['emailPass']);
+    $role = mysqli_real_escape_string($link, $_POST['role']);
+    $math = mysqli_real_escape_string($link, $_POST['math']);
+    //showAlertDialogMethod($math . "-" . intval($math) . "-" . $_SESSION['math_eval']);
+    if (empty($emailPass) || empty($role) || empty($math)) {
+        showAlertDialogMethod("Συμπληρωστε όλα τα πεδία");
+        exit();
+    }
+
+    if (isset($_SESSION['confirmation_code']) && !empty($_SESSION['confirmation_code'])) {
+        if ($emailPass == $_SESSION['confirmation_code'] && intval($math) == $_SESSION['math_eval']) {
+            // TODO Insert user role on database
+            $result = add_user($link, $fname, $lname, $email, $username, $password, $role);
+
+            // TODO check if successful
+            if ($result) {
+                session_destroy();
+                redirect("index.php");
+            }
+        } else {
+            showAlertDialogMethod("Συμπληρωστε σωστά τα πεδία");
+        }
+    } else {
+        showAlertDialogMethod("Συμπληρωστε σωστά τα πεδία");
+    }
+}
+?>
+
 <div class="page_content">
-    <form>
+    <form action="post_register.php" method="post" enctype="multipart/form-data">
 
         <div class="form-group">
             <label for="emailPass">Κωδικός επιβεβαίωσης με email:</label>
@@ -19,35 +63,18 @@ include_once "page_parts/header.php";
         <div class="form-group">
             <label for="id_role">Ρόλος:</label>
             <select type="text" id="role" name="role">
-                <option value="1">Καθηγητής</option>
-                <option value="2">Φοιτητής</option>
+                <option value="0">Καθηγητής</option>
+                <option value="1" selected>Φοιτητής</option>
             </select>
         </div>
+        <div class="form-group">
+            <label for="math"><?php echo createRandomMathFormula() ?></label>
+            <input type="number" class="form-control" id="math" name="math" placeholder="Total">
+        </div>
+
 
         <button type="submit" name="register" class="btn btn-primary">Ολοκλήρωση εγγραφής</button>
     </form>
 </div>
 </body>
 </html>
-
-<?php
-if ($_SERVER['REQUEST_METHOD'] == "POST" && isset($_POST['register'])) {
-
-    $emailPass = mysqli_real_escape_string($link, $_POST['emailPass']);
-    $role = mysqli_real_escape_string($link, $_POST['role']);
-
-    if (isset($_SESSION['confirmation_code']) && !empty($_SESSION['confirmation_code'])) {
-        if ($emailPass == $_SESSION['confirmation_code']) {
-            // TODO Update user role on database
-            // $_SESSION['inserted_user_id']
-            // $sql = "update user set role='$role' where user_id='$_SESSION['inserted_user_id']'";
-
-            // TODO check if successful
-            // If OK
-            // Unset session
-        }
-    }
-
-    showAlertDialogMethod($role);
-}
-?>
