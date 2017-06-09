@@ -15,11 +15,13 @@ function redirect($url)
         die();
     }
 }
+
 /*student,teacher*/
-function get_role_string($role_int){
-    if($role_int == 0){
+function get_role_string($role_int)
+{
+    if ($role_int == 0) {
         return "teacher";
-    }else{
+    } else {
         return "student";
     }
 }
@@ -109,6 +111,18 @@ function createRandomMathFormula()
 
 
 }
+
+function getLessonsFromDatabase($link)
+{
+    $sql = "SELECT name FROM lesson";
+    $result = $link->query($sql);
+    if ($result->num_rows > 0) {
+        return ($result);
+    } else {
+        echo "0 results";
+    }
+}
+
 
 function sendEmail($email, $code)
 {
