@@ -36,7 +36,7 @@ function get_user_by_username($link, $username)
     $count = mysqli_num_rows($result);
     if ($count == 1) {
         $row = mysqli_fetch_assoc($result);
-        $user = new User($row['fname'], $row['username'], $row['lname'], $row['email'], $row['role'], $row['password']);
+        $user = new User($row['fname'], $row['username'], $row['lname'], $row['email'], $row['role'], $row['password'], $row['id']);
     }
     return $user;
 }
@@ -78,6 +78,115 @@ function add_user($link, $fname, $lname, $email, $username, $password, $role)
     }
 }
 
+function add_thesis($link, $title, $user_id, $student_number, $target, $description, $knowledge, $lesson_field)
+{
+    mysqli_autocommit($link, false);
+
+
+    $query = "insert into thesis 
+                            (
+                                title,
+                                teacher_id,
+								student_number,
+                                student_knowledge,
+                                state,
+                                description,
+                                target
+                            ) 
+                            Values
+                            (
+                                '$title',
+                                '$user_id',
+								$student_number,
+                                '$knowledge',
+                                1,
+                                '$description',
+                                '$target'
+                            )";
+
+    $result = mysqli_query($link, $query);
+
+    if ($result) {
+        mysqli_commit($link);
+        $inserted_thesis_id = get_thesis($link, $title, $user_id, $student_number, $target, $description, $knowledge);
+
+        if (intval($inserted_thesis_id) > 0) {
+            $success = add_thesis_lessons($link, $inserted_thesis_id, $lesson_field);
+            if ($success) {
+                showAlertDialogMethod("Επιτυχής εισαγωγή");
+                return true;
+            } else {
+                showAlertDialogMethod("Αδυναμία εισαγωγής νέας δηπλωματικής");
+                return false;
+            }
+
+        } else {
+            mysqli_rollback($link);
+            showAlertDialogMethod("Αδυναμία εισαγωγής νέας δηπλωματικής");
+            return false;
+        }
+
+    } else {
+        mysqli_rollback($link);
+        showAlertDialogMethod("Αδυναμία εισαγωγής νέας δηπλωματικής");
+        return false;
+    }
+}
+
+function get_thesis($link, $title, $user_id, $student_number, $target, $description, $knowledge)
+{
+    $sql = "SELECT id FROM thesis WHERE title='$title' AND teacher_id='$user_id' AND student_number=$student_number AND student_knowledge='$knowledge' AND state=1 AND description='$description' AND target='$target'";
+    $result = mysqli_query($link, $sql) or die(mysqli_error($link));
+    $count = mysqli_num_rows($result);
+    if ($count == 1) {
+        while ($row = $result->fetch_assoc()) {
+            return $row['id'];
+        }
+    }
+    return null;
+}
+
+function add_thesis_lessons($link, $thesis_id, $lesson_field)
+{
+    $success = true;
+    showAlertDialogMethod(">" . (string)$lesson_field . "<");
+
+    $lesson_ids = explode(" ",(string) $lesson_field);
+    foreach ($lesson_ids as $lesson_id) {
+        showAlertDialogMethod(">>>".$lesson_id);
+
+        if($lesson_id)
+
+        mysqli_autocommit($link, false);
+
+        $query = "insert into thesis_lesson_correlation 
+                            (
+                               thesis_id,
+                               lesson_id
+                            ) 
+                            Values
+                            (
+                                intval($thesis_id),
+                                intval($lesson_id)
+                            )";
+        showAlertDialogMethod($query);
+
+        $result = mysqli_query($link, $query);
+
+        if (!$result) {
+            $success = false;
+            break;
+        }
+    }
+    if ($success) {
+        mysqli_commit($link);
+        return true;
+    } else {
+        mysqli_rollback($link);
+        return false;
+    }
+}
+
 function generateRandomString($length = 10)
 {
     $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
@@ -114,7 +223,7 @@ function createRandomMathFormula()
 
 function getLessonsFromDatabase($link)
 {
-    $sql = "SELECT name FROM lesson";
+    $sql = "SELECT id, name FROM lesson";
     $result = $link->query($sql);
     if ($result->num_rows > 0) {
         return ($result);

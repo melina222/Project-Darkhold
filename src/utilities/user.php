@@ -8,8 +8,9 @@
  */
 class User
 {
-    function User($name, $username, $surname, $email, $role, $password)
+    function User($name, $username, $surname, $email, $role, $password,$id)
     {
+        $this->id = $id;
         $this->name = $name;
         $this->surname = $surname;
         $this->username = $username;

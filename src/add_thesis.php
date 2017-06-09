@@ -7,13 +7,24 @@
     <script>
         $(document).ready(function () {
             $("#add-lesson").click(function () {
-                $('#mySelect')
-                    .append($("<option></option>")
-                        .attr("value", $('select[name=lessons-selector]').val())
-                        .text($('select[name=lessons-selector]').val());
+
+                if (!$("#lesson-field").val().includes($('select[name=lessons-selector]').val())) {
+                    $('#lessons-remove-selector').append($('<option>', {
+                        value: $('select[name=lessons-selector]').val(),
+                        text: $('#lessons-selector').find(":selected").text()
+                    }));
+
+                    $("#lesson-field").val($("#lesson-field").val() + " " + $('select[name=lessons-selector]').val());
+                }
+            });
+
+            $("#remove-lesson").click(function () {
+                $("#lesson-field").val($("#lesson-field").val().replace(' ' + $('select[name=lessons-remove-selector]').val(), ''));
+                $("#lessons-remove-selector option[value='" + $('select[name=lessons-remove-selector]').val() + "']").remove();
             });
         });
     </script>
+
 
 </head>
 <body class="container">
@@ -24,8 +35,29 @@ include_once "page_parts/header.php";
 <?php
 include_once "page_parts/login_checker.php";
 ?>
+
+<?php
+
+if ($_SERVER['REQUEST_METHOD'] == "POST" && isset($_POST['add'])) {
+    $title = mysqli_real_escape_string($link, $_POST['title']);
+    $student_number = mysqli_real_escape_string($link, $_POST['student_number']);
+    $target = mysqli_real_escape_string($link, $_POST['target']);
+    $description = mysqli_real_escape_string($link, $_POST['description']);
+    $knowledge = mysqli_real_escape_string($link, $_POST['knowledge']);
+    $lessonField = mysqli_real_escape_string($link, $_POST['lesson-field']);
+    $user_id = $_SESSION['user_id'];
+
+    if (empty($title) || empty($student_number) || empty($target) || empty($description) || empty($knowledge)) {
+        showAlertDialogMethod("Συμπληρωστε όλα τα πεδία");
+        exit();
+    }
+
+    add_thesis($link, $title, $user_id, intval($student_number), $target, $description, $knowledge, $lessonField);
+
+}
+?>
 <div class="page_content">
-    <form action="register.php" method="post" enctype="multipart/form-data">
+    <form action="add_thesis.php" method="post" enctype="multipart/form-data">
         <div class="form-group">
             <label for="title">Τίτλος:</label>
             <input type="text" class="form-control" id="title" name="title" placeholder="Τίτλος">
@@ -62,13 +94,16 @@ include_once "page_parts/login_checker.php";
                     while ($lesson = $result->fetch_assoc()) {
                         echo '<option value="' . $lesson["id"] . '">' . $lesson["name"] . '</option>';
                     }
-
                     ?>
                 </select>
                 <span class="input-group-btn">
                         <button type="button" id="add-lesson" class="btn btn-success form-control">Προσθήκη</button>
                     </span>
             </div>
+        </div>
+
+        <div class="form-group">
+            <input type="hidden" id="lesson-field" name="lesson-field" value="">
         </div>
 
         <div class="form-group">
@@ -83,7 +118,7 @@ include_once "page_parts/login_checker.php";
             </div>
         </div>
 
-        <button type="submit" name="add" class="btn btn-primary">Προσθήκη</button>
+        <button type="submit" name="add" id="add" class="btn btn-primary">Προσθήκη</button>
 
     </form>
 </div>
