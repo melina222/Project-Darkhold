@@ -29,6 +29,11 @@ include_once "page_parts/login_checker.php";
         $selected_thesis = mysqli_real_escape_string($link, $_POST['selected-thesis']);
     }
 
+    if ($_SERVER['REQUEST_METHOD'] == "POST" && isset($_POST['pdf'])) {
+
+        $selected_thesis = mysqli_real_escape_string($link, $_POST['selected-thesis']);
+    }
+
     ?>
 
     <h3>Κατάσταση: Δεν έχουν ανατεθεί</h3>
@@ -372,7 +377,7 @@ include_once "page_parts/login_checker.php";
                 echo '<td>';
                 echo '<form action="view_thesis.php" method="post" enctype="multipart/form-data">';
                 echo '<input type="hidden" id="selected-thesis" name="selected-thesis" value="' . $row['id'] . '">';
-                echo '<button type="submit" name="pdf" class="btn btn-primary">Προς Γραμματεία</button>';
+                echo '<button type="submit" name="pdf" class="btn btn-info">Προς Γραμματεία</button>';
                 echo '</form>';
                 echo '</td>';
                 echo '</tr>';
