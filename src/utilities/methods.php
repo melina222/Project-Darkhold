@@ -40,6 +40,20 @@ function get_user_by_id($link, $user_id)
     }
     return $user;
 }
+function get_user_by_thesis($link, $thesis_id)
+{
+    include("thesis.php");
+    $sql = "SELECT * "
+        . "FROM user WHERE id='$thesis_id' ";
+    $user = null;
+    $result = mysqli_query($link, $sql) or die(mysqli_error($link));
+    $count = mysqli_num_rows($result);
+    if ($count == 1) {
+        $row = mysqli_fetch_assoc($result);
+        $user = new User($row['fname'], $row['username'], $row['lname'], $row['email'], $row['role'], $row['password'], $row['id']);
+    }
+    return $user;
+}
 
 function get_user_by_username($link, $username)
 {
@@ -274,6 +288,17 @@ function get_thesis_for_teacher_that_students_applied_for($link, $teacher_id)
     }
     return null;
 }
+function get_thesis_by_name($link, $name)
+{
+    $sql = "SELECT * FROM thesis WHERE title='$name'";
+    $result = mysqli_query($link, $sql) or die(mysqli_error($link));
+    $count = mysqli_num_rows($result);
+    if ($count == 1) {
+        return $result;
+    }
+    return null;
+}
+
 
 function get_thesis_by_id($link, $thesis_id)
 {
