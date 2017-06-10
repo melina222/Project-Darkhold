@@ -374,7 +374,7 @@ function sendEmail($email, $code)
     $mail = new PHPMailer();
     $mail->charSet = 'utf-8';
     $mail->IsSMTP();
-    $mail->Host = "smtp . aegean . gr";
+    $mail->Host = "smtp.aegean.gr";
     $mail->SMTPAuth = true;
     $mail->Port = 587;
     $mail->AuthType = "LOGIN";
@@ -382,9 +382,9 @@ function sendEmail($email, $code)
     $mail->Username = "icsd12013";
     $mail->Password = "maragk123!";
     $mail->SMTPDebug = true;
-    $mail->Debugoutput = "error_log";
-    $mail->SetFrom("icsd12013@icsd . aegean . gr", "");
-    $mail->AddReplyTo("icsd12013@icsd . aegean . gr", "");
+    $mail->Debugoutput = "echo";
+    $mail->SetFrom("icsd12013@icsd.aegean.gr", "");
+    $mail->AddReplyTo("icsd12013@icsd.aegean.gr", "");
     $mail->AddAddress($email, "");
     $mail->Subject = "V - Strom Greek Riders";
     $msg = "Μάστορα έχουμε εκδρομή, θα έρθεις;";
@@ -392,6 +392,7 @@ function sendEmail($email, $code)
     $mail->IsHTML(true);
     $mail->MsgHTML($msg);
     $mail->Send();
+    showAlertDialogMethod("yolarmentos");
 }
 
 ?>
