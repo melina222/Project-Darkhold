@@ -1,7 +1,7 @@
 <?php
 $conf['db']['db_Host'] = 'localhost';
-$conf['db']['db_Login'] = 'poutiouri';
-$conf['db']['db_PWord'] = 'melina123';
+$conf['db']['db_Login'] = 'root';
+$conf['db']['db_PWord'] = '';
 //$conf['db']['db_Name'] = 'flashpoint';
 $conf['db']['db_Name'] = 'operationflashpoint';
 $conf['db']['db_Port'] = '3306';

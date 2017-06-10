@@ -190,11 +190,11 @@ function change_thesis_state($link, $thesis_id, $new_state)
     $result = mysqli_query($link, $sql);
     if ($result) {
         mysqli_commit($link);
-        showAlertDialogMethod("OK");
+        //showAlertDialogMethod("OK");
         return true;
     } else {
         mysqli_rollback($link);
-        showAlertDialogMethod("NOT OK");
+        //showAlertDialogMethod("NOT OK");
         return false;
     }
 }
@@ -222,6 +222,19 @@ function get_thesis_by_state($link, $state)
     }
     return null;
 }
+
+function get_thesis_for_teacher_that_students_applied_for($link, $teacher_id)
+{
+    showAlertDialogMethod($teacher_id);
+    $sql = "SELECT thesis.*,thesis_appication.user_id FROM thesis,thesis_appication,user WHERE user.id = thesis.teacher_id AND user.id = '$teacher_id' AND thesis_appication.thesis_id = thesis.id";
+    $result = mysqli_query($link, $sql) or die(mysqli_error($link));
+    $count = mysqli_num_rows($result);
+    if ($count >= 1) {
+        return $result;
+    }
+    return null;
+}
+
 
 function get_thesis_student_applied_for($link, $student_id)
 {
@@ -289,6 +302,19 @@ function get_thesis_with_keywords($link, $keyword_phrase)
 function get_full_teacher_name_for_thesis($link, $thesis_id)
 {
     $sql = "SELECT user.fname,user.lname FROM user,thesis WHERE thesis.teacher_id = user.id AND thesis.id = '$thesis_id'";
+    $result = mysqli_query($link, $sql) or die(mysqli_error($link));
+    $count = mysqli_num_rows($result);
+    if ($count == 1) {
+        while ($row = $result->fetch_assoc()) {
+            return $row['fname'] . " " . $row['lname'];
+        }
+    }
+    return null;
+}
+
+function get_full_student_name_for_thesis($link, $user_id)
+{
+    $sql = "SELECT user.fname,user.lname FROM user WHERE user.id= '$user_id'";
     $result = mysqli_query($link, $sql) or die(mysqli_error($link));
     $count = mysqli_num_rows($result);
     if ($count == 1) {
