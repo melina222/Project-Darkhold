@@ -78,11 +78,10 @@ function add_user($link, $fname, $lname, $email, $username, $password, $role)
 								'$email',
                                 '$username',
                                 '$hashedPassword',
-                                 '$role'
+                                 $role
                             )";
     $result = mysqli_query($link, $query);
 
-    showAlertDialogMethod($query);
     if ($result) {
         mysqli_commit($link);
         showAlertDialogMethod("Επιτυχής εγγραφή");
@@ -103,9 +102,9 @@ function add_user($link, $fname, $lname, $email, $username, $password, $role)
 function update_thesis_application_state($link, $state, $thesis_id, $student_id)
 {
     mysqli_autocommit($link, false);
-    $sql = "UPDATE thesis_application
+    $sql = "UPDATE thesis_appication
             SET state='$state'
-            WHERE thesis_application.thesis_id = '$thesis_id' AND thesis_application.user_id='$student_id'";
+            WHERE thesis_appication.thesis_id = '$thesis_id' AND thesis_appication.user_id='$student_id'";
 
     $result = mysqli_query($link, $sql);
     if ($result) {
@@ -253,9 +252,9 @@ function get_thesis($link, $title, $user_id, $student_number, $target, $descript
     return null;
 }
 
-function get_thesis_by_state($link, $state)
+function get_thesis_by_state($link, $state, $user_id)
 {
-    $sql = "SELECT * FROM thesis WHERE state='$state'";
+    $sql = "SELECT * FROM thesis WHERE state='$state' AND thesis.teacher_id = '$user_id'";
     $result = mysqli_query($link, $sql) or die(mysqli_error($link));
     $count = mysqli_num_rows($result);
     if ($count >= 1) {
@@ -266,8 +265,8 @@ function get_thesis_by_state($link, $state)
 
 function get_thesis_for_teacher_that_students_applied_for($link, $teacher_id)
 {
-    // showAlertDialogMethod($teacher_id);
-    $sql = "SELECT thesis.*,thesis_appication.user_id FROM thesis,thesis_appication,user WHERE user.id = thesis.teacher_id AND user.id = '$teacher_id' AND thesis_appication.thesis_id = thesis.id";
+    showAlertDialogMethod($teacher_id);
+    $sql = "SELECT thesis.*,thesis_appication.user_id,thesis_appication.state FROM thesis,thesis_appication,user WHERE user.id = thesis.teacher_id AND user.id = '$teacher_id' AND thesis_appication.thesis_id = thesis.id";
     $result = mysqli_query($link, $sql) or die(mysqli_error($link));
     $count = mysqli_num_rows($result);
     if ($count >= 1) {
@@ -508,7 +507,7 @@ function get_approved_users_for_thesis($link, $thesis_id)
 
 function get_thesis_applicants($link, $thesis_id)
 {
-    $sql = "SELECT COUNT(id) as num FROM thesis_application WHERE 	thesis_id='$thesis_id' AND state=1";
+    $sql = "SELECT COUNT(id) as num FROM thesis_appication WHERE thesis_id='$thesis_id' AND state=1";
     $result = mysqli_query($link, $sql) or die(mysqli_error($link));
     $count = mysqli_num_rows($result);
     if ($count == 1) {
@@ -576,5 +575,29 @@ function send_mail_to_user($email, $message, $path = "path")
     $mail->MsgHTML($msg);
     $mail->Send();
 }
+
+function create_pdf($email, $message, $path = "path")
+{
+
+    // include autoloader
+    require_once 'dompdf/autoload.inc.php';
+
+
+// instantiate and use the dompdf class
+    $dompdf = new Dompdf();
+
+    $html = file_get_contents("DIPLO.htm");
+    $dompdf->loadHtml($html);
+
+// (Optional) Setup the paper size and orientation
+    $dompdf->setPaper('A4', 'landscape');
+
+// Render the HTML as PDF
+    $dompdf->render();
+
+// Output the generated PDF (1 = download and 0 = preview)
+    $dompdf->stream("codexworld",array("Attachment"=>0));
+}
+
 
 ?>

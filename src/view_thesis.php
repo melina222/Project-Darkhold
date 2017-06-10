@@ -29,13 +29,18 @@ include_once "page_parts/login_checker.php";
         $selected_thesis = mysqli_real_escape_string($link, $_POST['selected-thesis']);
     }
 
+    if ($_SERVER['REQUEST_METHOD'] == "POST" && isset($_POST['pdf'])) {
+
+        $selected_thesis = mysqli_real_escape_string($link, $_POST['selected-thesis']);
+    }
+
     ?>
 
     <h3>Κατάσταση: Δεν έχουν ανατεθεί</h3>
     <br>
     <table class="table">
         <?php
-        $all_thesis = get_thesis_by_state($link, 1);
+        $all_thesis = get_thesis_by_state($link, 1, $_SESSION['user_id']);
         if ($all_thesis == null) {
 
             echo '<h5>Δεν βρέθηκαν αποτελέσματα</h5>';
@@ -50,7 +55,7 @@ include_once "page_parts/login_checker.php";
             echo '<td><h4>Προαπαιτούμενες γνώσεις</h4></td>';
             echo '<td><h4>Προαπαιτούμενες μαθήματα</h4></td>';
             echo '<td><h4>Ημερομηνία δημοσίευσης</h4></td>';
-            echo '<td><h4>Επεξεργασία</h4></td>';
+/*            echo '<td><h4>Επεξεργασία</h4></td>';*/
             echo '<td><h4>Chat</h4></td>';
             echo '</tr>';
             while ($row = $all_thesis->fetch_assoc()) {
@@ -76,12 +81,12 @@ include_once "page_parts/login_checker.php";
                 echo '<td>';
                 echo '<h5 id="align_start" style="">' . $row['publication_date'] . '</h5>';
                 echo '</td>';
-                echo '<td>';
+/*                echo '<td>';
                 echo '<form action="view_thesis.php" method="post" enctype="multipart/form-data">';
                 echo '<input type="hidden" id="selected-thesis" name="selected-thesis" value="' . $row['id'] . '">';
                 echo '<button type="submit" name="edit" class="btn btn-warning">Επεξεργασία</button>';
                 echo '</form>';
-                echo '</td>';
+                echo '</td>';*/
                 echo '<td>';
                 echo '<form action="view_thesis.php" method="post" enctype="multipart/form-data">';
                 echo '<input type="hidden" id="selected-thesis" name="selected-thesis" value="' . $row['id'] . '">';
@@ -99,7 +104,7 @@ include_once "page_parts/login_checker.php";
     <br>
     <table class="table">
         <?php
-        $all_thesis = get_thesis_by_state($link, 2);
+        $all_thesis = get_thesis_by_state($link, 2, $_SESSION['user_id']);
         if ($all_thesis == null) {
 
             echo '<h5>Δεν βρέθηκαν αποτελέσματα</h5>';
@@ -111,6 +116,7 @@ include_once "page_parts/login_checker.php";
             echo '<td><h4>Περιγραφή</h4></td>';
             echo '<td><h4>Στόχος</h4></td>';
             echo '<td><h4>Αριθμός μαθητών</h4></td>';
+            echo '<td><h4>Ονόματα Φοιτητών</h4></td>';
             echo '<td><h4>Προαπαιτούμενες γνώσεις</h4></td>';
             echo '<td><h4>Προαπαιτούμενες μαθήματα</h4></td>';
             echo '<td><h4>Ημερομηνία δημοσίευσης</h4></td>';
@@ -130,6 +136,9 @@ include_once "page_parts/login_checker.php";
                 echo '<h5 id="align_start" style="">' . $row['student_number'] . '</h5>';
                 echo '</td>';
                 echo '<td>';
+                echo '<h5 id="align_start" style="">' . $row['student_number'] . '</h5>';
+                echo '</td>';
+                echo '<td>';
                 echo '<h5 id="align_start" style="">' . $row['student_knowledge'] . '</h5>';
                 echo '</td>';
                 echo '<td>';
@@ -138,12 +147,12 @@ include_once "page_parts/login_checker.php";
                 echo '<td>';
                 echo '<h5 id="align_start" style="">' . $row['publication_date'] . '</h5>';
                 echo '</td>';
-                echo '<td>';
+/*                echo '<td>';
                 echo '<form action="view_thesis.php" method="post" enctype="multipart/form-data">';
                 echo '<input type="hidden" id="selected-thesis" name="selected-thesis" value="' . $row['id'] . '">';
                 echo '<button type="submit" name="edit" class="btn btn-warning">Επεξεργασία</button>';
                 echo '</form>';
-                echo '</td>';
+                echo '</td>';*/
                 echo '<td>';
                 echo '<form action="view_thesis.php" method="post" enctype="multipart/form-data">';
                 echo '<input type="hidden" id="selected-thesis" name="selected-thesis" value="' . $row['id'] . '">';
@@ -161,7 +170,7 @@ include_once "page_parts/login_checker.php";
     <br>
     <table class="table">
         <?php
-        $all_thesis = get_thesis_by_state($link, 3);
+        $all_thesis = get_thesis_by_state($link, 3, $_SESSION['user_id']);
         if ($all_thesis == null) {
 
             echo '<h5>Δεν βρέθηκαν αποτελέσματα</h5>';
@@ -173,6 +182,7 @@ include_once "page_parts/login_checker.php";
             echo '<td><h4>Περιγραφή</h4></td>';
             echo '<td><h4>Στόχος</h4></td>';
             echo '<td><h4>Αριθμός μαθητών</h4></td>';
+            echo '<td><h4>Ονόματα Φοιτητών</h4></td>';
             echo '<td><h4>Προαπαιτούμενες γνώσεις</h4></td>';
             echo '<td><h4>Προαπαιτούμενες μαθήματα</h4></td>';
             echo '<td><h4>Ημερομηνία δημοσίευσης</h4></td>';
@@ -193,6 +203,9 @@ include_once "page_parts/login_checker.php";
                 echo '<h5 id="align_start" style="">' . $row['student_number'] . '</h5>';
                 echo '</td>';
                 echo '<td>';
+                echo '<h5 id="align_start" style="">' . $row['student_number'] . '</h5>';
+                echo '</td>';
+                echo '<td>';
                 echo '<h5 id="align_start" style="">' . $row['student_knowledge'] . '</h5>';
                 echo '</td>';
                 echo '<td>';
@@ -204,12 +217,12 @@ include_once "page_parts/login_checker.php";
                 echo '<td>';
                 echo '<h5 id="align_start" style="">' . $row['assignment_date'] . '</h5>';
                 echo '</td>';
-                echo '<td>';
+/*                echo '<td>';
                 echo '<form action="view_thesis.php" method="post" enctype="multipart/form-data">';
                 echo '<input type="hidden" id="selected-thesis" name="selected-thesis" value="' . $row['id'] . '">';
                 echo '<button type="submit" name="edit" class="btn btn-warning">Επεξεργασία</button>';
                 echo '</form>';
-                echo '</td>';
+                echo '</td>';*/
                 echo '<td>';
                 echo '<form action="view_thesis.php" method="post" enctype="multipart/form-data">';
                 echo '<input type="hidden" id="selected-thesis" name="selected-thesis" value="' . $row['id'] . '">';
@@ -227,7 +240,7 @@ include_once "page_parts/login_checker.php";
     <br>
     <table class="table">
         <?php
-        $all_thesis = get_thesis_by_state($link, 4);
+        $all_thesis = get_thesis_by_state($link, 4, $_SESSION['user_id']);
         if ($all_thesis == null) {
 
             echo '<h5>Δεν βρέθηκαν αποτελέσματα</h5>';
@@ -239,6 +252,7 @@ include_once "page_parts/login_checker.php";
             echo '<td><h4>Περιγραφή</h4></td>';
             echo '<td><h4>Στόχος</h4></td>';
             echo '<td><h4>Αριθμός μαθητών</h4></td>';
+            echo '<td><h4>Ονόματα Φοιτητών</h4></td>';
             echo '<td><h4>Προαπαιτούμενες γνώσεις</h4></td>';
             echo '<td><h4>Προαπαιτούμενες μαθήματα</h4></td>';
             echo '<td><h4>Ημερομηνία δημοσίευσης</h4></td>';
@@ -260,6 +274,9 @@ include_once "page_parts/login_checker.php";
                 echo '<h5 id="align_start" style="">' . $row['student_number'] . '</h5>';
                 echo '</td>';
                 echo '<td>';
+                echo '<h5 id="align_start" style="">' . $row['student_number'] . '</h5>';
+                echo '</td>';
+                echo '<td>';
                 echo '<h5 id="align_start" style="">' . $row['student_knowledge'] . '</h5>';
                 echo '</td>';
                 echo '<td>';
@@ -271,12 +288,12 @@ include_once "page_parts/login_checker.php";
                 echo '<td>';
                 echo '<h5 id="align_start" style="">' . $row['assignment_date'] . '</h5>';
                 echo '</td>';
-                echo '<td>';
+               /* echo '<td>';
                 echo '<form action="view_thesis.php" method="post" enctype="multipart/form-data">';
                 echo '<input type="hidden" id="selected-thesis" name="selected-thesis" value="' . $row['id'] . '">';
                 echo '<button type="submit" name="edit" class="btn btn-warning">Επεξεργασία</button>';
                 echo '</form>';
-                echo '</td>';
+                echo '</td>';*/
                 echo '<td>';
                 echo '<form action="view_thesis.php" method="post" enctype="multipart/form-data">';
                 echo '<input type="hidden" id="selected-thesis" name="selected-thesis" value="' . $row['id'] . '">';
@@ -294,12 +311,11 @@ include_once "page_parts/login_checker.php";
     <br>
     <table class="table">
         <?php
-        $all_thesis = get_thesis_by_state($link, 5);
+        $all_thesis = get_thesis_by_state($link, 5, $_SESSION['user_id']);
 
         if ($all_thesis == null) {
 
             echo '<h5>Δεν βρέθηκαν αποτελέσματα</h5>';
-
 
         } else {
 
@@ -307,12 +323,14 @@ include_once "page_parts/login_checker.php";
             echo '<td><h4>Τίτλος</h4></td>';
             echo '<td><h4>Περιγραφή</h4></td>';
             echo '<td><h4>Στόχος</h4></td>';
-            echo '<td><h4>Αριθμός μαθητών</h4></td>';
+            echo '<td><h4>Αριθμός φοιτητών</h4></td>';
+            echo '<td><h4>Ονόματα Φοιτητών</h4></td>';
             echo '<td><h4>Προαπαιτούμενες γνώσεις</h4></td>';
             echo '<td><h4>Προαπαιτούμενες μαθήματα</h4></td>';
             echo '<td><h4>Ημερομηνία δημοσίευσης</h4></td>';
             echo '<td><h4>Ημερομηνία ανάληψης θέματος</h4></td>';
             echo '<td><h4>Ημερομηνία ολοκλήρωσης</h4></td>';
+            echo '<td><h4>Βαθμός</h4></td>';
             echo '</tr>';
 
             while ($row = $all_thesis->fetch_assoc()) {
@@ -325,6 +343,9 @@ include_once "page_parts/login_checker.php";
                 echo '</td>';
                 echo '<td>';
                 echo '<h5 id="align_start" style="">' . $row['target'] . '</h5>';
+                echo '</td>';
+                echo '<td>';
+                echo '<h5 id="align_start" style="">' . $row['student_number'] . '</h5>';
                 echo '</td>';
                 echo '<td>';
                 echo '<h5 id="align_start" style="">' . $row['student_number'] . '</h5>';
@@ -345,15 +366,18 @@ include_once "page_parts/login_checker.php";
                 echo '<h5 id="align_start" style="">' . $row['completion_date'] . '</h5>';
                 echo '</td>';
                 echo '<td>';
+                echo '<h5 id="align_start" style="">' . $row['grade'] . '</h5>';
+                echo '</td>';
+                /*echo '<td>';
                 echo '<form action="view_thesis.php" method="post" enctype="multipart/form-data">';
                 echo '<input type="hidden" id="selected-thesis" name="selected-thesis" value="' . $row['id'] . '">';
                 echo '<button type="submit" name="edit" class="btn btn-warning">Επεξεργασία</button>';
                 echo '</form>';
-                echo '</td>';
+                echo '</td>';*/
                 echo '<td>';
                 echo '<form action="view_thesis.php" method="post" enctype="multipart/form-data">';
                 echo '<input type="hidden" id="selected-thesis" name="selected-thesis" value="' . $row['id'] . '">';
-                echo '<button type="submit" name="chat" class="btn btn-primary">Chat</button>';
+                echo '<button type="submit" name="pdf" class="btn btn-info">Προς Γραμματεία</button>';
                 echo '</form>';
                 echo '</td>';
                 echo '</tr>';
