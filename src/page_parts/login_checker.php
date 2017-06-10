@@ -4,7 +4,7 @@ if (isset($_SESSION['login_state']) && !empty($_SESSION['login_state'])) {
         session_destroy();
         redirect("error_page.php");
     }
-}else{
+} else {
     session_destroy();
     redirect("error_page.php");
 }
