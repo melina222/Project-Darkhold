@@ -47,6 +47,8 @@ include_once "page_parts/login_checker.php";
             set_grade_to_thesis($link, $selected_thesis, $selected_grade);
 
 
+
+
         }
 
         if ($_SERVER['REQUEST_METHOD'] == "POST" && isset($_POST['apply'])) {
