@@ -28,7 +28,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST" && isset($_POST['register'])) {
     $role = mysqli_real_escape_string($link, $_POST['role']);
     $math = mysqli_real_escape_string($link, $_POST['math']);
     //showAlertDialogMethod($emailPass . "< " . $role . " " . $math . "-" . intval($math) . "-" . $_SESSION['math_eval']);
-    if (empty($emailPass) || empty($role) || empty($math)) {
+    if (empty($emailPass) || empty($math)) {
         showAlertDialogMethod("Συμπληρωστε όλα τα πεδία");
     }
 

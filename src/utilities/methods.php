@@ -109,11 +109,11 @@ function update_thesis_application_state($link, $state, $thesis_id, $student_id)
     $result = mysqli_query($link, $sql);
     if ($result) {
         mysqli_commit($link);
-        //showAlertDialogMethod("OK");
+        showAlertDialogMethod("OK");
         return true;
     } else {
         mysqli_rollback($link);
-        //showAlertDialogMethod("NOT OK");
+        showAlertDialogMethod("NOT OK");
         return false;
     }
 }
