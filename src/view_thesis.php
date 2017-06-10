@@ -22,6 +22,7 @@ include_once "page_parts/login_checker.php";
     if ($_SERVER['REQUEST_METHOD'] == "POST" && isset($_POST['edit'])) {
 
         $selected_thesis = mysqli_real_escape_string($link, $_POST['selected-thesis']);
+        // TODO ADD REDIRECTION TO EDIT PAGE $selected_thesis = id tis diplwmatikis
     }
 
     if ($_SERVER['REQUEST_METHOD'] == "POST" && isset($_POST['chat'])) {

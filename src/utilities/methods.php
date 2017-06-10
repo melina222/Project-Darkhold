@@ -131,7 +131,8 @@ function add_thesis($link, $title, $user_id, $student_number, $target, $descript
                                 student_knowledge,
                                 state,
                                 description,
-                                target
+                                target,
+                                publication_date
                             ) 
                             Values
                             (
@@ -141,7 +142,8 @@ function add_thesis($link, $title, $user_id, $student_number, $target, $descript
                                 '$knowledge',
                                 1,
                                 '$description',
-                                '$target'
+                                '$target',
+                                'GETDATE()'
                             )";
 
     $result = mysqli_query($link, $query);
@@ -596,7 +598,7 @@ function create_pdf($email, $message, $path = "path")
     $dompdf->render();
 
 // Output the generated PDF (1 = download and 0 = preview)
-    $dompdf->stream("codexworld",array("Attachment"=>0));
+    $dompdf->stream("codexworld", array("Attachment" => 0));
 }
 
 
