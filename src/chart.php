@@ -1,68 +1,55 @@
 <?php
+include_once 'utilities/connectWithDB.php';
+$max_thesis_teacher = "SELECT user.fname , user.lname, COUNT(thesis.teacher_id) AS 'Arithmos diplwmatikwn' FROM `thesis`,user where user.id = thesis.teacher_id GROUP BY thesis.teacher_id ORDER BY COUNT(thesis.teacher_id) DESC";
+$average_score_per_teacher = "SELECT AVG(thesis.grade) as 'Mesos oros vathmologiwn',user.lname,user.fname FROM thesis,user WHERE thesis.teacher_id=user.id AND thesis.state = 5 GROUP BY thesis.teacher_id";
+$max_thesis_teacher_per_year = "SELECT * FROM thesis_per_user_per_year WHERE arithmos = (SELECT MAX(arithmos) FROM thesis_per_user_per_year ) GROUP BY etos";
+$average_thesis_completion_time = "SELECT round(AVG(DATEDIFF(completion_date,assignment_date))/7) as 'meso diastima',thesis.teacher_id,thesis.assignment_date,thesis.completion_date,user.lname ,user.fname
+FROM thesis,user where user.id=thesis.teacher_id GROUP BY teacher_id";
 
-$query = "SELECT user.fname , user.lname, COUNT(diplwmatikh.role_id) AS 'Arithmos diplwmatikwn' FROM `diplwmatikh`,user where user.role_id = diplwmatikh.role_id GROUP BY diplwmatikh.role_id ORDER BY COUNT(diplwmatikh.role_id) DESC";
-$query1 = "SELECT AVG(diplwmatikh.vathmos) as 'Mesos oros vathmologiwn',user.lname FROM `diplwmatikh`,user 
-WHERE diplwmatikh.role_id=user.role_id 
-GROUP BY diplwmatikh.role_id";
-$query2 = "SELECT user.fname , user.lname,year(diplwmatikh.date_olok) as 'etos', 
-COUNT(diplwmatikh.role_id) AS 'Arithmos diplwmatikwn ana etos' FROM `diplwmatikh`,user where user.role_id = diplwmatikh.role_id GROUP BY diplwmatikh.role_id,year(diplwmatikh.date_olok)
- ORDER BY COUNT(diplwmatikh.role_id) DESC";
-$query3 = "SELECT round(AVG(DATEDIFF(date_olok,date_an))/7) as 'meso diastima',diplwmatikh.role_id,diplwmatikh.date_an,diplwmatikh.date_olok,user.lname 
-FROM diplwmatikh,user where user.role_id=diplwmatikh.role_id GROUP BY role_id";
-
-$result = mysqli_query($link, $query);
-$result1 = mysqli_query($link, $query1);
-$result2 = mysqli_query($link, $query2);
-$result3 = mysqli_query($link, $query3);
+$result = mysqli_query($link, $max_thesis_teacher);
+$result1 = mysqli_query($link, $average_score_per_teacher);
+$result2 = mysqli_query($link, $max_thesis_teacher_per_year);
+$result3 = mysqli_query($link, $average_thesis_completion_time);
 $rows = array();
-$rows1 = array();
+$rows1 = array(); 
 $rows2 = array();
 $rows3 = array();
 // loop over the results of the query and input data into data structure
-while ($query = mysqli_fetch_array($result)) {
+while ($max_thesis_teacher = mysqli_fetch_array($result)) {
 //    $f_name = $query['f_name'];
 //    $l_name = $query['l_name'];
-    $count = $query['Arithmos diplwmatikwn'];
-    $name = $query['lname'];
-
+    $count = $max_thesis_teacher['Arithmos diplwmatikwn'];
+    $name = $max_thesis_teacher['fname'];
+    $name3 = $max_thesis_teacher['lname'];
     // input data into data structure
     // typecast count as integer so it doesn't get interpreted as a string
-    $rows[] = array($name, (int)$count);
+    $rows[] = array($name." ".$name3, (int)$count);
 }
 $data = json_encode($rows);
 
-while ($query1 = mysqli_fetch_array($result1)) {
-//    $f_name = $query['f_name'];
-//    $l_name = $query['l_name'];
-    $count1 = $query1['Mesos oros vathmologiwn'];
-    $name1 = $query1['lname'];
-
-    // input data into data structure
-    // typecast count as integer so it doesn't get interpreted as a string
-    $rows1[] = array($name1, (int)$count1);
+while ($average_score_per_teacher = mysqli_fetch_array($result1)) {
+    $count1 = $average_score_per_teacher['Mesos oros vathmologiwn'];
+    $name1 = $average_score_per_teacher['lname'];
+    $name2 = $average_score_per_teacher['fname'];
+    $rows1[] = array($name2 . " " . $name1, (int)$count1);
 }
 $data1 = json_encode($rows1);
 
-while ($query2 = mysqli_fetch_array($result2)) {
-//    $f_name = $query['f_name'];
-//    $l_name = $query['l_name'];
-    $count2 = $query2['Arithmos diplwmatikwn ana etos'];
-    $name2 = $query2['etos'];
-//    $name_k = $query2['lname'];
-
+while ($max_thesis_teacher_per_year = mysqli_fetch_array($result2)) {
+    $count2 = $max_thesis_teacher_per_year['Arithmos diplwmatikwn ana etos'];
+    $name2 = $max_thesis_teacher_per_year['etos'];
     $rows2[] = array($name2, (int)$count2);
 }
 $data2 = json_encode($rows2);
 
-while ($query3 = mysqli_fetch_array($result3)) {
-//    $f_name = $query['f_name'];
-//    $l_name = $query['l_name'];
-    $count3 = $query3['meso diastima'];
-    $name3 = $query3['lname'];
+while ($average_thesis_completion_time = mysqli_fetch_array($result3)) {
+    $count3 = $average_thesis_completion_time['meso diastima'];
+    $name3 = $average_thesis_completion_time['fname'];
+    $name4 = $average_thesis_completion_time['lname'];
 
     // input data into data structure
     // typecast count as integer so it doesn't get interpreted as a string
-    $rows3[] = array($name3, (int)$count3);
+    $rows3[] = array($name3." ".$name4, (int)$count3);
 }
 $data3 = json_encode($rows3);
 ?>
@@ -83,15 +70,15 @@ $data3 = json_encode($rows3);
         google.load('visualization', '1.0', {'packages': ['corechart']});
 
         // Set a callback to run when the Google Visualization API is loaded.
-        google.setOnLoadCallback(drawChart);
-        google.setOnLoadCallback(drawChart1);
-        google.setOnLoadCallback(drawChart2);
-        google.setOnLoadCallback(drawChart3);
+        google.setOnLoadCallback(max_thesis_teacher_chart);
+        google.setOnLoadCallback(average_score_per_teacher_chart);
+        google.setOnLoadCallback(max_thesis_teacher_per_year_chart);
+        google.setOnLoadCallback(average_thesis_completion_time_chart);
 
         // Callback that creates and populates a data table,
         // instantiates the pie chart, passes in the data and
         // draws it.
-        function drawChart() {
+        function max_thesis_teacher_chart() {
 
             // Create the data table.
             var data = new google.visualization.DataTable();
@@ -111,7 +98,7 @@ $data3 = json_encode($rows3);
             chart.draw(data, options);
         }
 
-        function drawChart1() {
+        function average_score_per_teacher_chart() {
 
 
             // Create the data table.
@@ -131,13 +118,10 @@ $data3 = json_encode($rows3);
             chart1.draw(data1, options1);
         }
 
-        function drawChart2() {
+        function max_thesis_teacher_per_year_chart() {
 
             // Create the data table.
             var data2 = new google.visualization.DataTable();
-
-
-//            data2.addColumn('number', 'etos');
 
 
             data2.addColumn('string', 'lname');
@@ -155,7 +139,7 @@ $data3 = json_encode($rows3);
             chart2.draw(data2, options2);
         }
 
-        function drawChart3() {
+        function average_thesis_completion_time_chart() {
 
             // Create the data table.
             var data3 = new google.visualization.DataTable();
@@ -165,7 +149,7 @@ $data3 = json_encode($rows3);
 
 
             data3.addColumn('string', 'lname');
-            data3.addColumn('number', 'Meso diastima');
+            data3.addColumn('number', 'Μεσο Διαστημα');
             data3.addRows(<?php echo $data3; ?>);
 
             // Set chart options

@@ -20,6 +20,28 @@ include_once "page_parts/login_checker.php";
         <?php
 
 
+        if ($_SERVER['REQUEST_METHOD'] == "POST" && isset($_POST['present'])) {
+
+            $selected_thesis = mysqli_real_escape_string($link, $_POST['selected-thesis']);
+            $selected_student = mysqli_real_escape_string($link, $_POST['user-id']);
+
+            // TODO change this to alter thesis state to 4 presnt
+            // TODO ADD DATES GOD DAMN IT!!!!!!!!!
+
+
+        }
+
+        if ($_SERVER['REQUEST_METHOD'] == "POST" && isset($_POST['grade'])) {
+
+            $selected_thesis = mysqli_real_escape_string($link, $_POST['selected-thesis']);
+            $selected_student = mysqli_real_escape_string($link, $_POST['user-id']);
+
+            // TODO change this to alter thesis state to 5 complete
+            // TODO ADD DATES GOD DAMN IT!!!!!!!!!
+
+
+        }
+
         if ($_SERVER['REQUEST_METHOD'] == "POST" && isset($_POST['apply'])) {
 
             $selected_thesis = mysqli_real_escape_string($link, $_POST['selected-thesis']);
@@ -31,20 +53,20 @@ include_once "page_parts/login_checker.php";
             $thesis_number_of_student = get_approved_users_for_thesis($link, $selected_thesis);
             $number_of_student = get_thesis_applicants($link, $selected_thesis);
 
+           // showAlertDialogMethod("i am in");
             if ($number_of_student < $thesis_number_of_student) {
+                //showAlertDialogMethod("i am in");
                 $full_thesis = get_thesis_by_id($link, $selected_thesis);
 
                 update_thesis_application_state($link, 1, $selected_thesis, $selected_student);
                 change_thesis_state($link, $selected_thesis, 3);
                 $user = get_user_by_id($link, $selected_student);
                 while ($row = $full_thesis->fetch_assoc()) {
-                    send_mail_to_user($user->email, "Η αίτηση σας για " . $row['title'] . " έγινε αποδεκτή ");
+                    // send_mail_to_user($user->email, "Η αίτηση σας για " . $row['title'] . " έγινε αποδεκτή ");
                 }
             } else {
                 showAlertDialogMethod("Δεν μπορεις να αναθέσεις την διπλωματική σε παραπάνω άτομα");
             }
-
-
         }
 
         $all_thesis = get_thesis_for_teacher_that_students_applied_for($link, $_SESSION['user_id']);
@@ -92,15 +114,27 @@ include_once "page_parts/login_checker.php";
                 echo '<td>';
                 echo '<h5 id="align_start" style="">' . get_full_student_name_for_thesis($link, $row['user_id']) . '</h5>';
                 echo '</td>';
-                echo '<td>';
-                echo '<form action="view_thesis_applies.php" method="post" enctype="multipart/form-data">';
-                echo '<input type="hidden" id="selected-thesis" name="selected-thesis" value="' . $row['id'] . '">';;
-                echo '<input type="hidden" id="user-id" name="user-id" value="' . $row['user_id'] . '">';;
-                echo '<button type="submit" name="apply" class="btn btn-primary">Ανάθεση</button>';
-                echo '</form>';
-                echo '</td>';
+                showAlertDialogMethod($row['state']);
+                if ($row['state'] == 0) {
+                    echo '<td>';
+                    echo '<form action="view_thesis_applies.php" method="post" enctype="multipart/form-data">';
+                    echo '<input type="hidden" id="selected-thesis" name="selected-thesis" value="' . $row['id'] . '">';
+                    echo '<input type="hidden" id="user-id" name="user-id" value="' . $row['user_id'] . '">';
+                    echo '<button type="submit" name="apply" class="btn btn-primary">Ανάθεση</button>';
+                    echo '</form>';
+                    echo '</td>';
+                }else{
+                    echo '<td>';
+                    echo '<form action="view_thesis_applies.php" method="post" enctype="multipart/form-data">';
+                    echo '<input type="hidden" id="selected-thesis" name="selected-thesis" value="' . $row['id'] . '">';
+                    echo '<input type="hidden" id="user-id" name="user-id" value="' . $row['user_id'] . '">';
+                    echo '<button type="submit" name="present" class="btn btn-danger">Παρουσίαση</button>';
+                    echo '</form>';
+                    echo '</td>';
+                }
                 echo '</tr>';
             }
+
         }
         ?>
     </table>

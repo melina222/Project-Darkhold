@@ -28,9 +28,9 @@ if ($_SERVER['REQUEST_METHOD'] == "POST" && isset($_POST['register'])) {
     $role = mysqli_real_escape_string($link, $_POST['role']);
     $math = mysqli_real_escape_string($link, $_POST['math']);
     //showAlertDialogMethod($emailPass . "< " . $role . " " . $math . "-" . intval($math) . "-" . $_SESSION['math_eval']);
-    if (empty($emailPass) || empty($role) || empty($math)) {
+    if (empty($emailPass) || empty($math)) {
         showAlertDialogMethod("Συμπληρωστε όλα τα πεδία");
-    }
+    } 
 
     if (isset($_SESSION['confirmation_code']) && !empty($_SESSION['confirmation_code'])) {
         if ($emailPass == $_SESSION['confirmation_code'] && intval($math) == $_SESSION['math_eval']) {
@@ -56,7 +56,8 @@ if ($_SERVER['REQUEST_METHOD'] == "POST" && isset($_POST['register'])) {
 
         <div class="form-group">
             <label for="emailPass">Κωδικός επιβεβαίωσης με email:</label>
-            <input required="required" type="text" class="form-control" id="emailPass" name="emailPass" placeholder="Email password">
+            <input required="required" type="text" class="form-control" id="emailPass" name="emailPass"
+                   placeholder="Email password">
         </div>
 
         <div class="form-group">
