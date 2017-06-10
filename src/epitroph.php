@@ -1,14 +1,18 @@
-
-  <html>
-
- <head>
-
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<html>
+<head>
+    <?php
+    include_once "page_parts/head.php";
+    ?>
 </head>
+<body class="container">
+<?php
+include_once "page_parts/header.php";
+?>
 
 
-<body>
-<div class="container">
+
+
+<div class="page_content">
 <form action="epitroph.php" method="post">
 <br>
     <input type="submit" id="submit6" name="submit6" value="Στείλε αίτηση αποδοχής ένταξης στην τριμελή επιτροπή">
@@ -18,9 +22,7 @@
 
 
 
-</div>
-</body>
-</html>
+
 <?php
 $connect=new mysqli('localhost','root','','project');
  
@@ -30,10 +32,10 @@ if($connect->connect_error)
 }
 else 
 	echo 'connect worked ';
-session_start();
-   	  $_SESSION['id_role'] = $_GET["value1"];
-	$id_role= $_SESSION['id_role'];
-	$id_role="prof1234";
+
+
+	$id_role= $_SESSION['user_id'];
+	echo'id: '.$id_role;
 if (isset($_POST['name1']) && isset($_POST['name2'])&&isset($_POST['name3'])) {
 	//	$adress='icsd16164@icsd.aegean.gr';//einai ths grammateias
 	
@@ -75,3 +77,6 @@ if(isset($_POST['submit6']))
 <?php
  }  
  ?>
+</div>
+</body>
+</html>

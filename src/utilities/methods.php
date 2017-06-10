@@ -117,6 +117,7 @@ function add_user($link, $fname, $lname, $email, $username, $password, $role)
 function update_thesis_application_state($link, $state, $thesis_id, $student_id)
 {
     mysqli_autocommit($link, false);
+
     $sql = "UPDATE thesis_appication
             SET state='$state'
             WHERE thesis_appication.thesis_id = '$thesis_id' AND thesis_appication.user_id='$student_id'";
@@ -198,12 +199,14 @@ function insert_thesis_apply_for_student($link, $thesis_id, $user_id)
     $query = "insert into thesis_appication 
                             (
                                 thesis_id,
-                                user_id
+                                user_id,
+                                  state
                             ) 
                             Values
                             (
                                 '$thesis_id',
-                                '$user_id'
+                                '$user_id',
+                                   0
                             )";
 
     $result = mysqli_query($link, $query);
@@ -247,13 +250,14 @@ function change_thesis_state($link, $thesis_id, $new_state)
     $result = mysqli_query($link, $sql);
     if ($result) {
         mysqli_commit($link);
-        //showAlertDialogMethod("OK");
+        showAlertDialogMethod("change the state of thesis");
         return true;
     } else {
         mysqli_rollback($link);
-        //showAlertDialogMethod("NOT OK");
+        showAlertDialogMethod("NOT OK");
         return false;
     }
+
 }
 
 function get_thesis($link, $title, $user_id, $student_number, $target, $description, $knowledge)
@@ -284,6 +288,15 @@ function get_thesis_for_teacher_that_students_applied_for($link, $teacher_id)
 {
     //showAlertDialogMethod($teacher_id);
     $sql = "SELECT thesis.*,thesis_appication.user_id,thesis_appication.state FROM thesis,thesis_appication,user WHERE user.id = thesis.teacher_id AND user.id = '$teacher_id' AND thesis_appication.thesis_id = thesis.id";
+    $result = mysqli_query($link, $sql) or die(mysqli_error($link));
+    $count = mysqli_num_rows($result);
+    if ($count >= 1) {
+        return $result;
+    }
+    return null;
+}
+function get_thesis_by_teacher_id($link, $teacher_id){
+    $sql = "SELECT thesis.*,thesis_appication.state FROM thesis,user WHERE user.id = thesis.teacher_id AND user.id = '$teacher_id'";
     $result = mysqli_query($link, $sql) or die(mysqli_error($link));
     $count = mysqli_num_rows($result);
     if ($count >= 1) {
@@ -555,7 +568,7 @@ function set_grade_to_thesis($link, $thesis_id, $grade)
 
 function get_thesis_applicants($link, $thesis_id)
 {
-    $sql = "SELECT COUNT(id) as num FROM thesis_appication WHERE thesis_id='$thesis_id' AND state=1";
+    $sql = "SELECT COUNT(id) as num FROM thesis_appication WHERE thesis_id='$thesis_id' AND state!=0";
     $result = mysqli_query($link, $sql) or die(mysqli_error($link));
     $count = mysqli_num_rows($result);
     if ($count == 1) {

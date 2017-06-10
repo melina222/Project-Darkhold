@@ -8,6 +8,6 @@
         <li><a href="gantt.php">Gantt Chart </a></li>
         <li><a href="#stats">Στατιστικά Στοιχεία</a></li>
         <li><a href="#grammateia">Γραμματεία</a></li>
-        <li><a href="#epitropi">Επιτροπή</a></li>
+        <li><a href="epitroph.php">Επιτροπή</a></li>
     </ul>
 </div><!--/.nav-collapse -->
