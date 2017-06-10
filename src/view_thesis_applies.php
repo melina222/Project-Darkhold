@@ -28,6 +28,9 @@ include_once "page_parts/login_checker.php";
             // TODO change this to alter thesis state to 4 presnt
             // TODO ADD DATES GOD DAMN IT!!!!!!!!!
 
+            update_thesis_application_state($link, 2, $selected_thesis, $selected_student);
+            change_thesis_state($link, $selected_thesis, 4);
+
 
         }
 
@@ -35,9 +38,13 @@ include_once "page_parts/login_checker.php";
 
             $selected_thesis = mysqli_real_escape_string($link, $_POST['selected-thesis']);
             $selected_student = mysqli_real_escape_string($link, $_POST['user-id']);
+            $selected_grade = mysqli_real_escape_string($link, $_POST['grade-value']);
 
             // TODO change this to alter thesis state to 5 complete
             // TODO ADD DATES GOD DAMN IT!!!!!!!!!
+            update_thesis_application_state($link, 3, $selected_thesis, $selected_student);
+            change_thesis_state($link, $selected_thesis, 5);
+            set_grade_to_thesis($link, $selected_thesis, $selected_grade);
 
 
         }
@@ -53,7 +60,7 @@ include_once "page_parts/login_checker.php";
             $thesis_number_of_student = get_approved_users_for_thesis($link, $selected_thesis);
             $number_of_student = get_thesis_applicants($link, $selected_thesis);
 
-           // showAlertDialogMethod("i am in");
+            // showAlertDialogMethod("i am in");
             if ($number_of_student < $thesis_number_of_student) {
                 //showAlertDialogMethod("i am in");
                 $full_thesis = get_thesis_by_id($link, $selected_thesis);
@@ -114,7 +121,7 @@ include_once "page_parts/login_checker.php";
                 echo '<td>';
                 echo '<h5 id="align_start" style="">' . get_full_student_name_for_thesis($link, $row['user_id']) . '</h5>';
                 echo '</td>';
-                showAlertDialogMethod($row['state']);
+                // showAlertDialogMethod($row['state']);
                 if ($row['state'] == 0) {
                     echo '<td>';
                     echo '<form action="view_thesis_applies.php" method="post" enctype="multipart/form-data">';
@@ -123,14 +130,30 @@ include_once "page_parts/login_checker.php";
                     echo '<button type="submit" name="apply" class="btn btn-primary">Ανάθεση</button>';
                     echo '</form>';
                     echo '</td>';
-                }else{
+                } else if ($row['state'] == 1) {
                     echo '<td>';
                     echo '<form action="view_thesis_applies.php" method="post" enctype="multipart/form-data">';
                     echo '<input type="hidden" id="selected-thesis" name="selected-thesis" value="' . $row['id'] . '">';
                     echo '<input type="hidden" id="user-id" name="user-id" value="' . $row['user_id'] . '">';
-                    echo '<button type="submit" name="present" class="btn btn-danger">Παρουσίαση</button>';
+                    echo '<button type="submit" name="present" class="btn btn-warning">Παρουσίαση</button>';
                     echo '</form>';
                     echo '</td>';
+                } else if ($row['state'] == 2) {
+                    echo '<td>';
+                    echo '<form action="view_thesis_applies.php" method="post" enctype="multipart/form-data">';
+                    echo '<input type="hidden" id="selected-thesis" name="selected-thesis" value="' . $row['id'] . '">';
+                    echo '<input type="hidden" id="user-id" name="user-id" value="' . $row['user_id'] . '">';
+                    echo '<label for="grade-value">Bαθμός</label>';
+                    echo '<input required="required" type="number" id="grade-value" name="grade-value" value="">';
+                    echo '<button type="submit" name="grade" class="btn btn-danger">Ολοκλήρωση</button>';
+                    echo '</form>';
+                    echo '</td>';
+                    /*echo '<td>';
+                    echo '<input type="hidden" id="selected-thesis" name="selected-thesis" value="' . $row['id'] . '">';
+                    echo '<input type="hidden" id="user-id" name="user-id" value="' . $row['user_id'] . '">';
+                    echo '<button type="button" class="btn btn-danger" data-toggle="modal" data-target="#myModal">Ολοκλήρωση</button>';
+                    echo '</td>';*/
+                    // echo '<button type="submit" name="grade" class="btn btn-danger">Ολοκλήρωση</button>';
                 }
                 echo '</tr>';
             }
@@ -139,6 +162,31 @@ include_once "page_parts/login_checker.php";
         ?>
     </table>
 </div>
+
+<!--<div class="modal fade" id="myModal" role="dialog">
+    <div class="modal-dialog">
+
+
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Modal Header</h4>
+            </div>
+            <div class="modal-body">
+                <form action="view_thesis_applies.php" method="post" enctype="multipart/form-data">
+                    <input type="hidden" id="selected-thesis" name="selected-thesis" value="' . $row['id'] . '">
+                    <input type="hidden" id="user-id" name="user-id" value="' . $row['user_id'] . '">
+                    <button type="submit" name="grade" class="btn btn-danger">Ολοκλήρωση</button>
+                </form>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+
+    </div>
+</div>-->
 
 </body>
 </html>

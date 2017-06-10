@@ -40,6 +40,7 @@ function get_user_by_id($link, $user_id)
     }
     return $user;
 }
+
 function get_user_by_thesis($link, $thesis_id)
 {
     include("thesis.php");
@@ -281,7 +282,7 @@ function get_thesis_by_state($link, $state, $user_id)
 
 function get_thesis_for_teacher_that_students_applied_for($link, $teacher_id)
 {
-    showAlertDialogMethod($teacher_id);
+    //showAlertDialogMethod($teacher_id);
     $sql = "SELECT thesis.*,thesis_appication.user_id,thesis_appication.state FROM thesis,thesis_appication,user WHERE user.id = thesis.teacher_id AND user.id = '$teacher_id' AND thesis_appication.thesis_id = thesis.id";
     $result = mysqli_query($link, $sql) or die(mysqli_error($link));
     $count = mysqli_num_rows($result);
@@ -290,6 +291,7 @@ function get_thesis_for_teacher_that_students_applied_for($link, $teacher_id)
     }
     return null;
 }
+
 function get_thesis_by_name($link, $name)
 {
     $sql = "SELECT * FROM thesis WHERE title='$name'";
@@ -530,6 +532,25 @@ function get_approved_users_for_thesis($link, $thesis_id)
         }
     }
     return null;
+}
+
+function set_grade_to_thesis($link, $thesis_id, $grade)
+{
+    mysqli_autocommit($link, false);
+    $sql = "UPDATE thesis
+            SET grade='$grade'
+            WHERE thesis.id = '$thesis_id'";
+    $result = mysqli_query($link, $sql);
+    if ($result) {
+        mysqli_commit($link);
+        // showAlertDialogMethod("OK");
+        return true;
+    } else {
+        mysqli_rollback($link);
+        // showAlertDialogMethod("NOT OK");
+        return false;
+    }
+
 }
 
 function get_thesis_applicants($link, $thesis_id)
