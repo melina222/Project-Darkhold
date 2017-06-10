@@ -12,27 +12,31 @@ include_once "page_parts/header.php";
     <form action="register.php" method="post" enctype="multipart/form-data">
         <div class="form-group">
             <label for="fname">Όνομα:</label>
-            <input type="text" class="form-control" id="fname" name="fname" placeholder="First name">
+            <input required="required" type="text" class="form-control" id="fname" name="fname"
+                   placeholder="First name">
         </div>
         <div class="form-group">
             <label for="lname">Επίθετο:</label>
-            <input type="text" class="form-control" id="lname" name="lname" placeholder="Last name">
+            <input required="required" type="text" class="form-control" id="lname" name="lname" placeholder="Last name">
         </div>
         <div class="form-group">
             <label for="email">Email:</label>
-            <input type="email" class="form-control" id="email" name="email" placeholder="Email">
+            <input required="required" type="email" class="form-control" id="email" name="email" placeholder="Email">
         </div>
         <div class="form-group">
             <label for="username">Username:</label>
-            <input type="text" class="form-control" id="username" name="username" placeholder="Username">
+            <input required="required" type="text" class="form-control" id="username" name="username"
+                   placeholder="Username">
         </div>
         <div class="form-group">
             <label for="password">Κωδικός</label>
-            <input type="password" class="form-control" id="password" name="password" placeholder="Password">
+            <input required="required" type="password" class="form-control" id="password" name="password"
+                   placeholder="Password">
         </div>
         <div class="form-group">
             <label for="rpassword">Επανάληψη Κωδικού:</label>
-            <input type="password" class="form-control" id="rpassword" name="rpassword" placeholder="Re-enter Password">
+            <input required="required" type="password" class="form-control" id="rpassword" name="rpassword"
+                   placeholder="Re-enter Password">
         </div>
         <!-- <div class="form-group">
              <label for="id_role">Ρόλος:</label>

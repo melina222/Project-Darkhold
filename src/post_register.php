@@ -56,7 +56,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST" && isset($_POST['register'])) {
 
         <div class="form-group">
             <label for="emailPass">Κωδικός επιβεβαίωσης με email:</label>
-            <input type="text" class="form-control" id="emailPass" name="emailPass" placeholder="Email password">
+            <input required="required" type="text" class="form-control" id="emailPass" name="emailPass" placeholder="Email password">
         </div>
 
         <div class="form-group">
@@ -68,7 +68,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST" && isset($_POST['register'])) {
         </div>
         <div class="form-group">
             <label for="math"><?php echo createRandomMathFormula() ?></label>
-            <input type="number" class="form-control" id="math" name="math" placeholder="Total">
+            <input required="required" type="number" class="form-control" id="math" name="math" placeholder="Total">
         </div>
 
 

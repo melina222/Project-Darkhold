@@ -133,6 +133,35 @@ function add_thesis($link, $title, $user_id, $student_number, $target, $descript
     }
 }
 
+function insert_thesis_apply_for_student($link, $thesis_id, $user_id)
+{
+    mysqli_autocommit($link, false);
+
+
+    $query = "insert into thesis_appication 
+                            (
+                                thesis_id,
+                                user_id
+                            ) 
+                            Values
+                            (
+                                '$thesis_id',
+                                '$user_id'
+                            )";
+
+    $result = mysqli_query($link, $query);
+
+    if ($result) {
+        mysqli_commit($link);
+        showAlertDialogMethod("Επιτυχής υποβολή αίτησης");
+        return true;
+    } else {
+        mysqli_rollback($link);
+        showAlertDialogMethod("Αδυναμία υποβολής αίτησης");
+        return false;
+    }
+}
+
 function get_thesis($link, $title, $user_id, $student_number, $target, $description, $knowledge)
 {
     $sql = "SELECT id FROM thesis WHERE title='$title' AND teacher_id='$user_id' AND student_number=$student_number AND student_knowledge='$knowledge' AND state=1 AND description='$description' AND target='$target'";
@@ -156,6 +185,71 @@ function get_thesis_by_state($link, $state)
     }
     return null;
 }
+
+function get_thesis_with_keywords($link, $keyword_phrase)
+{
+
+    $final_keywords = array();
+    // showAlertDialogMethod($keyword_phrase . "<");
+
+    $keywords = explode(" ", $keyword_phrase);
+
+    foreach ($keywords as $keyword) {
+
+        // showAlertDialogMethod(">" . $keyword);
+        if (empty($keyword)) {
+            showAlertDialogMethod("KEEP");
+            continue;
+        }
+
+
+        /*$final_keywords[] = $keyword;*/
+        array_push($final_keywords, $keyword);
+    }
+
+
+    if (empty($final_keywords)) {
+        // showAlertDialogMethod("NULL");
+        return null;
+    }
+
+    $sql = "SELECT DISTINCT thesis.* FROM thesis,user WHERE user.id = thesis.teacher_id AND thesis.state=1 AND ";
+
+    $counter = 0;
+
+    foreach ($final_keywords as $final_keyword) {
+        $sql = $sql . "thesis.title LIKE '%$final_keyword%' OR thesis.description LIKE '%$final_keyword%' OR user.fname LIKE '%$final_keyword%' OR user.lname LIKE '%$final_keyword%'";
+        if ($counter < count($final_keywords) - 1) {
+            $sql = $sql . " OR ";
+        }
+        $counter++;
+    }
+
+    // showAlertDialogMethod($sql);
+
+    $result = mysqli_query($link, $sql) or die(mysqli_error($link));
+    $count = mysqli_num_rows($result);
+    if ($count >= 1) {
+        return $result;
+    }
+    return null;
+
+
+}
+
+function get_full_teacher_name_for_thesis($link, $thesis_id)
+{
+    $sql = "SELECT user.fname,user.lname FROM user,thesis WHERE thesis.teacher_id = user.id AND thesis.id = '$thesis_id'";
+    $result = mysqli_query($link, $sql) or die(mysqli_error($link));
+    $count = mysqli_num_rows($result);
+    if ($count == 1) {
+        while ($row = $result->fetch_assoc()) {
+            return $row['fname'] . " " . $row['lname'];
+        }
+    }
+    return null;
+}
+
 
 function get_lesson_names_as_string_for_thesis($link, $thesis_id)
 {

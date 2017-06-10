@@ -60,25 +60,27 @@ if ($_SERVER['REQUEST_METHOD'] == "POST" && isset($_POST['add'])) {
     <form action="add_thesis.php" method="post" enctype="multipart/form-data">
         <div class="form-group">
             <label for="title">Τίτλος:</label>
-            <input type="text" class="form-control" id="title" name="title" placeholder="Τίτλος">
+            <input required="required" type="text" class="form-control" id="title" name="title" placeholder="Τίτλος">
         </div>
         <div class="form-group">
             <label for="student_number">Αριθμός Φοιτητών:</label>
-            <input type="number" max="3" min="1" class="form-control" id="student_number" name="student_number"
+            <input required="required" type="number" max="3" min="1" class="form-control" id="student_number"
+                   name="student_number"
                    placeholder="Αριθμός Φοιτητών">
         </div>
         <div class="form-group">
             <label for="target">Στόχος Διπλωματικής:</label>
-            <input type="text" class="form-control" id="target" name="target" placeholder="Στόχος Διπλωματικής">
+            <input required="required" type="text" class="form-control" id="target" name="target"
+                   placeholder="Στόχος Διπλωματικής">
         </div>
         <div class="form-group">
             <label for="description">Συνοπτική Περιγραφή:</label>
-            <input type="text" class="form-control" id="description" name="description"
+            <input required="required" type="text" class="form-control" id="description" name="description"
                    placeholder="Συνοπτική Περιγραφή">
         </div>
         <div class="form-group">
             <label for="knowledge">Προαπαιτούμενες γνώσεις</label>
-            <input type="text" class="form-control" id="knowledge" name="knowledge"
+            <input required="required" type="text" class="form-control" id="knowledge" name="knowledge"
                    placeholder="Προαπαιτούμενες γνώσεις">
         </div>
 
