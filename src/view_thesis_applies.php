@@ -57,7 +57,7 @@ include_once "page_parts/login_checker.php";
             $selected_student = mysqli_real_escape_string($link, $_POST['user-id']);
 
             // TODO number of student = ατομα τα οποια εχει αναθεσει ο καθηγητης σε μια συγκεκριμένη διπλωματικη
-            // TODO thesis_number_of_student = μεγιστο αριθμο ατόμων για μια συγκεκριμενη διπλωματικη
+            // TODO thesis_number_of_student = μεγιστο αριθμο ατόμων για μια  συγκεκριμενη διπλωματικη
 
             $thesis_number_of_student = get_approved_users_for_thesis($link, $selected_thesis);
             $number_of_student = get_thesis_applicants($link, $selected_thesis);
