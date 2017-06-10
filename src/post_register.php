@@ -30,7 +30,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST" && isset($_POST['register'])) {
     //showAlertDialogMethod($emailPass . "< " . $role . " " . $math . "-" . intval($math) . "-" . $_SESSION['math_eval']);
     if (empty($emailPass) || empty($math)) {
         showAlertDialogMethod("Συμπληρωστε όλα τα πεδία");
-    } 
+    }
 
     if (isset($_SESSION['confirmation_code']) && !empty($_SESSION['confirmation_code'])) {
         if ($emailPass == $_SESSION['confirmation_code'] && intval($math) == $_SESSION['math_eval']) {
@@ -67,6 +67,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST" && isset($_POST['register'])) {
                 <option value="1" selected>Φοιτητής</option>
             </select>
         </div>
+
         <div class="form-group">
             <label for="math"><?php echo createRandomMathFormula() ?></label>
             <input required="required" type="number" class="form-control" id="math" name="math" placeholder="Total">
