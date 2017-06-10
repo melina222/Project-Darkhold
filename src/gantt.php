@@ -14,9 +14,6 @@ include_once "page_parts/header.php";
 include_once "page_parts/login_checker.php";
 ?>
 
-<?php
-include_once 'utilities/connectWithDB.php';
-?>
 
 <div class="page_content">
 
@@ -29,26 +26,27 @@ include_once 'utilities/connectWithDB.php';
         <select class="form-control" name="thesis-selector" type="text" id="thesis-selector"
                 style="margin-top: 10px;margin-bottom: 10px">
             <?php
-            $result = getLessonsFromDatabase($link);
-
+            $result = get_thesis_for_teacher_that_students_applied_for($link, $_SESSION['teacher_id']);
             while ($thesis = $result->fetch_assoc()) {
                 echo '<option value="' . $thesis["id"] . '">' . $thesis["name"] . '</option>';
             }
             ?>
         </select>
+        <span class="input-group-btn">
+                        <button type="button" id="add-lesson" class="btn btn-success form-control">Προσθήκη</button>
+                    </span>
     </div>
 </div>
 
 <head>
     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
     <script type="text/javascript">
-        google.charts.load('current', {'packages':['gantt']});
+        google.charts.load('current', {'packages': ['gantt']});
         google.charts.setOnLoadCallback(drawChart);
 
         function daysToMilliseconds(days) {
             return days * 24 * 60 * 60 * 1000;
         }
-
 
 
         function drawChart() {
@@ -64,7 +62,7 @@ include_once 'utilities/connectWithDB.php';
 
             data.addRows([
                 ['Research', 'Find sources',
-                    new Date(2015, 0, 1), new Date(2015, 0, 5), null,  100,  null],
+                    new Date(2015, 0, 1), new Date(2015, 0, 5), null, 100, null],
                 ['Write', 'Write paper',
                     null, new Date(2015, 0, 9), daysToMilliseconds(3), 25, 'Research,Outline'],
                 ['Cite', 'Create bibliography',
