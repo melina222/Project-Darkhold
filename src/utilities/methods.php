@@ -576,4 +576,39 @@ function send_mail_to_user($email, $message, $path = "path")
     $mail->Send();
 }
 
+function create_pdf($email, $message, $path = "path")
+{
+
+    function send_mail_to_user($email, $message, $path = "path")
+    {
+        require_once 'email_related/class.phpmailer.php';
+        ini_set('display_errors', 1);
+        $mail = new PHPMailer();
+        $mail->charSet = 'utf-8';
+        $mail->IsSMTP();
+        $mail->Host = "smtp.aegean.gr";
+        $mail->SMTPAuth = true;
+        $mail->Port = 587;
+        $mail->AuthType = "LOGIN";
+        $mail->SMTPSecure = "tls";
+        $mail->Username = "icsd12013";
+        $mail->Password = "maragk123!";
+        $mail->SMTPDebug = true;
+        $mail->Debugoutput = "error_log";
+        $mail->SetFrom("icsd12013@icsd.aegean.gr", "");
+        $mail->AddReplyTo("icsd12013@icsd.aegean.gr", "");
+        $mail->AddAddress($email, "");
+        $mail->Subject = "Σύστημα διπλωματικών Πανεπιστήμιο Αιγαίου";
+        /* $msg = "Μάστορα έχουμε εκδρομή, θα έρθεις;";*/
+        if ($path != "path") {
+            $mail->AddAttachment($path, $message, $encoding = 'base64', $type = 'application/pdf');      // attachment
+        }
+        $msg = $message;
+        $mail->IsHTML(true);
+        $mail->MsgHTML($msg);
+        $mail->Send();
+    }
+}
+
+
 ?>
