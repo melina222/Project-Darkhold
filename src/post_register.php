@@ -56,7 +56,8 @@ if ($_SERVER['REQUEST_METHOD'] == "POST" && isset($_POST['register'])) {
 
         <div class="form-group">
             <label for="emailPass">Κωδικός επιβεβαίωσης με email:</label>
-            <input required="required" type="text" class="form-control" id="emailPass" name="emailPass" placeholder="Email password">
+            <input required="required" type="text" class="form-control" id="emailPass" name="emailPass"
+                   placeholder="Email password">
         </div>
 
         <div class="form-group">
