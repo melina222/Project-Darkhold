@@ -162,6 +162,43 @@ function insert_thesis_apply_for_student($link, $thesis_id, $user_id)
     }
 }
 
+function get_state_string_by_id($id)
+{
+    if ($id == 1) {
+        return 'Δεν έχει ανατεθεί';
+    } else if ($id == 2) {
+        return 'Υπο έγκριση';
+    } else if ($id == 3) {
+        return 'Έχει ανατεθεί σε φοιτητή/φοιτητές';
+    } else if ($id == 4) {
+        return 'Έτοιμη για παρουσίαση';
+    } else if ($id == 5) {
+        return 'Έχει ολοκληρωθεί';
+    } else {
+        return 'yolo';
+    }
+}
+
+
+function change_thesis_state($link, $thesis_id, $new_state)
+{
+    mysqli_autocommit($link, false);
+    $sql = "UPDATE thesis
+            SET state='$new_state'
+            WHERE thesis.id = '$thesis_id'";
+
+    $result = mysqli_query($link, $sql);
+    if ($result) {
+        mysqli_commit($link);
+        showAlertDialogMethod("OK");
+        return true;
+    } else {
+        mysqli_rollback($link);
+        showAlertDialogMethod("NOT OK");
+        return false;
+    }
+}
+
 function get_thesis($link, $title, $user_id, $student_number, $target, $description, $knowledge)
 {
     $sql = "SELECT id FROM thesis WHERE title='$title' AND teacher_id='$user_id' AND student_number=$student_number AND student_knowledge='$knowledge' AND state=1 AND description='$description' AND target='$target'";
@@ -178,6 +215,18 @@ function get_thesis($link, $title, $user_id, $student_number, $target, $descript
 function get_thesis_by_state($link, $state)
 {
     $sql = "SELECT * FROM thesis WHERE state='$state'";
+    $result = mysqli_query($link, $sql) or die(mysqli_error($link));
+    $count = mysqli_num_rows($result);
+    if ($count >= 1) {
+        return $result;
+    }
+    return null;
+}
+
+function get_thesis_student_applied_for($link, $student_id)
+{
+
+    $sql = "SELECT DISTINCT thesis.* FROM thesis,thesis_appication WHERE thesis.id = thesis_appication.thesis_id AND thesis_appication.user_id = $student_id";
     $result = mysqli_query($link, $sql) or die(mysqli_error($link));
     $count = mysqli_num_rows($result);
     if ($count >= 1) {
@@ -213,7 +262,7 @@ function get_thesis_with_keywords($link, $keyword_phrase)
         return null;
     }
 
-    $sql = "SELECT DISTINCT thesis.* FROM thesis,user WHERE user.id = thesis.teacher_id AND thesis.state=1 AND ";
+    $sql = "SELECT DISTINCT thesis.* FROM thesis,user WHERE user.id = thesis.teacher_id AND thesis.state = 1 AND ";
 
     $counter = 0;
 
