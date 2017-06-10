@@ -1,13 +1,10 @@
 <div id="navbar" class="collapse navbar-collapse">
     <ul class="nav navbar-nav">
-        <li class="active"><a href="#">Home</a></li>
-        <li><a href="#new_dipl">Νέα Διπλωματική</a></li>
-        <li><a href="#diplomatikes">Διπλωματικές</a></li>
-        <li><a href="#aitisis">Αιτήσεις Διπλωματικών</a></li>
-        <li><a href="#contact">Επικοινωνία με Φοιτητή</a></li>
-        <li><a href="#gannt">Gannt Chart </a></li>
-        <li><a href="#stats">Στατιστικά Στοιχεία</a></li>
-        <li><a href="#grammateia">Γραμματεία</a></li>
-        <li><a href="#epitropi">Επιτροπή</a></li>
+        <li class="active"><a href="index.php">Αρχική</a></li>
+        <li><a href="search_thesis.php">Αναζήτηση</a></li>
+        <li><a href="student_apply_form.php">Αίτηση για δηπλωματική</a></li>
+        <li><a href="student_chat.php">Chat</a></li>
+        <li><a href="student_send_files.php">Αποστολή αρχείων</a></li>
+        <li><a href="student_cv.php">Βιογραφικό</a></li>
     </ul>
 </div><!--/.nav-collapse -->
