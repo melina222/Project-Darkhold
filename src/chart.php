@@ -1,10 +1,10 @@
 <?php
 include_once 'utilities/connectWithDB.php';
-$max_thesis_teacher = "SELECT user.fname , user.lname, COUNT(thesis.teacher_id) AS 'Arithmos diplwmatikwn' FROM `thesis`,user where user.id = thesis.teacher_id GROUP BY thesis.teacher_id ORDER BY COUNT(thesis.teacher_id) DESC";
+$max_thesis_teacher = "SELECT user.fname , user.lname, COUNT(thesis.teacher_id) AS 'Arithmos diplwmatikwn' FROM `thesis`,user where user.id = thesis.teacher_id and thesis.state=5 GROUP BY thesis.teacher_id ORDER BY COUNT(thesis.teacher_id) DESC";
 $average_score_per_teacher = "SELECT AVG(thesis.grade) as 'Mesos oros vathmologiwn',user.lname,user.fname FROM thesis,user WHERE thesis.teacher_id=user.id AND thesis.state = 5 GROUP BY thesis.teacher_id";
-$max_thesis_teacher_per_year = "SELECT * FROM thesis_per_user_per_year WHERE arithmos = (SELECT MAX(arithmos) FROM thesis_per_user_per_year ) GROUP BY etos";
+$max_thesis_teacher_per_year = "SELECT * FROM thesis_per_user_per_year WHERE arithmos = (SELECT MAX(arithmos)  FROM thesis_per_user_per_year ) GROUP BY etos";
 $average_thesis_completion_time = "SELECT round(AVG(DATEDIFF(completion_date,assignment_date))/7) as 'meso diastima',thesis.teacher_id,thesis.assignment_date,thesis.completion_date,user.lname ,user.fname
-FROM thesis,user where user.id=thesis.teacher_id GROUP BY teacher_id";
+FROM thesis,user where user.id=thesis.teacher_id and thesis.state = 5 GROUP BY teacher_id";
 
 $result = mysqli_query($link, $max_thesis_teacher);
 $result1 = mysqli_query($link, $average_score_per_teacher);
@@ -36,9 +36,10 @@ while ($average_score_per_teacher = mysqli_fetch_array($result1)) {
 $data1 = json_encode($rows1);
 
 while ($max_thesis_teacher_per_year = mysqli_fetch_array($result2)) {
-    $count2 = $max_thesis_teacher_per_year['Arithmos diplwmatikwn ana etos'];
+    $count2 = $max_thesis_teacher_per_year['arithmos'];
     $name2 = $max_thesis_teacher_per_year['etos'];
-    $rows2[] = array($name2, (int)$count2);
+    $name5 = $max_thesis_teacher_per_year['lname'];
+    $rows2[] = array($name2." ".$name5, (int)$count2);
 }
 $data2 = json_encode($rows2);
 
