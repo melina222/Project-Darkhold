@@ -146,16 +146,52 @@ function get_thesis($link, $title, $user_id, $student_number, $target, $descript
     return null;
 }
 
+function get_thesis_by_state($link, $state)
+{
+    $sql = "SELECT * FROM thesis WHERE state='$state'";
+    $result = mysqli_query($link, $sql) or die(mysqli_error($link));
+    $count = mysqli_num_rows($result);
+    if ($count >= 1) {
+        return $result;
+    }
+    return null;
+}
+
+function get_lesson_names_as_string_for_thesis($link, $thesis_id)
+{
+    $lessons = get_lessons_for_thesis($link, $thesis_id);
+    $name = "";
+    if ($lessons != null) {
+        while ($row = $lessons->fetch_assoc()) {
+            $name = $name . $row['name'] . ', ';
+        }
+        return $name;
+    } else {
+        return "Κανένα";
+    }
+}
+
+function get_lessons_for_thesis($link, $thesis_id)
+{
+    $sql = "SELECT lesson.name, lesson.semester FROM thesis_lesson_correlation,lesson WHERE thesis_lesson_correlation.thesis_id='$thesis_id' AND thesis_lesson_correlation.lesson_id = lesson.id";
+    $result = mysqli_query($link, $sql) or die(mysqli_error($link));
+    $count = mysqli_num_rows($result);
+    if ($count >= 1) {
+        return $result;
+    }
+    return null;
+}
+
 function add_thesis_lessons($link, $thesis_id, $lesson_field)
 {
     $success = true;
-    //showAlertDialogMethod(">" . (string)$lesson_field . "<");
+    //showAlertDialogMethod(" > " . (string)$lesson_field . "<");
     mysqli_autocommit($link, false);
 
 
     $lesson_ids = explode(" ", (string)$lesson_field);
     foreach ($lesson_ids as $lesson_id) {
-        //showAlertDialogMethod(">>>" . $lesson_id);
+        //showAlertDialogMethod(" >>>" . $lesson_id);
 
         if (empty($lesson_id)) {
             continue;
@@ -163,20 +199,20 @@ function add_thesis_lessons($link, $thesis_id, $lesson_field)
 
 
         $query = "insert into thesis_lesson_correlation
-                            (
-                               thesis_id,
-                               lesson_id
-                            ) 
+(
+    thesis_id,
+    lesson_id
+)
                             Values
                             (
                                 '$thesis_id',
                                 '$lesson_id'
-                                                            )";
+                            )";
 
         $result = mysqli_query($link, $query);
 
         if (!$result) {
-            /*showAlertDialogMethod($lesson_id . "<>" . $thesis_id);
+            /*showAlertDialogMethod($lesson_id . " <> " . $thesis_id);
             showAlertDialogMethod($query);*/
             $success = false;
         }
@@ -185,7 +221,7 @@ function add_thesis_lessons($link, $thesis_id, $lesson_field)
         mysqli_commit($link);
         return true;
     } else {
-       // showAlertDialogMethod("FAIL");
+        // showAlertDialogMethod("FAIL");
         mysqli_rollback($link);
         return false;
     }
@@ -218,7 +254,7 @@ function createRandomMathFormula()
 
     $numA = generateRandomNumber(1);
     $numB = generateRandomNumber(1);
-    //showAlertDialogMethod(intval($numA) + intval($numB) . " >" . $numA . " >" . $numB);
+    //showAlertDialogMethod(intval($numA) + intval($numB) . " > " . $numA . " >" . $numB);
     $_SESSION['math_eval'] = intval($numA) + intval($numB);
     return $numA . " + " . $numB . " = ;";
 
@@ -244,7 +280,7 @@ function sendEmail($email, $code)
     $mail = new PHPMailer();
     $mail->charSet = 'utf-8';
     $mail->IsSMTP();
-    $mail->Host = "smtp.aegean.gr";
+    $mail->Host = "smtp . aegean . gr";
     $mail->SMTPAuth = true;
     $mail->Port = 587;
     $mail->AuthType = "LOGIN";
@@ -253,10 +289,10 @@ function sendEmail($email, $code)
     $mail->Password = "maragk123!";
     $mail->SMTPDebug = true;
     $mail->Debugoutput = "error_log";
-    $mail->SetFrom("icsd12013@icsd.aegean.gr", "");
-    $mail->AddReplyTo("icsd12013@icsd.aegean.gr", "");
+    $mail->SetFrom("icsd12013@icsd . aegean . gr", "");
+    $mail->AddReplyTo("icsd12013@icsd . aegean . gr", "");
     $mail->AddAddress($email, "");
-    $mail->Subject = "V-Strom Greek Riders";
+    $mail->Subject = "V - Strom Greek Riders";
     $msg = "Μάστορα έχουμε εκδρομή, θα έρθεις;";
     $msg = $msg . " Code: " . $code;
     $mail->IsHTML(true);
