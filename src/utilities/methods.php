@@ -150,38 +150,42 @@ function add_thesis_lessons($link, $thesis_id, $lesson_field)
 {
     $success = true;
     showAlertDialogMethod(">" . (string)$lesson_field . "<");
+    mysqli_autocommit($link, false);
 
-    $lesson_ids = explode(" ",(string) $lesson_field);
+
+    $lesson_ids = explode(" ", (string)$lesson_field);
     foreach ($lesson_ids as $lesson_id) {
-        showAlertDialogMethod(">>>".$lesson_id);
+        showAlertDialogMethod(">>>" . $lesson_id);
 
-        if($lesson_id)
+        if (empty($lesson_id)) {
+            continue;
+        }
 
-        mysqli_autocommit($link, false);
 
-        $query = "insert into thesis_lesson_correlation 
+        $query = "insert into thesis_lesson_correlation
                             (
                                thesis_id,
                                lesson_id
                             ) 
                             Values
                             (
-                                intval($thesis_id),
-                                intval($lesson_id)
-                            )";
-        showAlertDialogMethod($query);
+                                '$thesis_id',
+                                '$lesson_id'
+                                                            )";
 
         $result = mysqli_query($link, $query);
 
         if (!$result) {
+            showAlertDialogMethod($lesson_id . "<>" . $thesis_id);
+            showAlertDialogMethod($query);
             $success = false;
-            break;
         }
     }
     if ($success) {
         mysqli_commit($link);
         return true;
     } else {
+        showAlertDialogMethod("FAIL");
         mysqli_rollback($link);
         return false;
     }
