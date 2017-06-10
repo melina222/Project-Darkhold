@@ -27,10 +27,9 @@ if ($_SERVER['REQUEST_METHOD'] == "POST" && isset($_POST['register'])) {
     $emailPass = mysqli_real_escape_string($link, $_POST['emailPass']);
     $role = mysqli_real_escape_string($link, $_POST['role']);
     $math = mysqli_real_escape_string($link, $_POST['math']);
-    //showAlertDialogMethod($math . "-" . intval($math) . "-" . $_SESSION['math_eval']);
+    //showAlertDialogMethod($emailPass . "< " . $role . " " . $math . "-" . intval($math) . "-" . $_SESSION['math_eval']);
     if (empty($emailPass) || empty($role) || empty($math)) {
         showAlertDialogMethod("Συμπληρωστε όλα τα πεδία");
-        exit();
     }
 
     if (isset($_SESSION['confirmation_code']) && !empty($_SESSION['confirmation_code'])) {
@@ -62,7 +61,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST" && isset($_POST['register'])) {
 
         <div class="form-group">
             <label for="id_role">Ρόλος:</label>
-            <select type="text" id="role" name="role">
+            <select class="form-control" type="text" id="role" name="role">
                 <option value="0">Καθηγητής</option>
                 <option value="1" selected>Φοιτητής</option>
             </select>

@@ -14,17 +14,17 @@ include_once "utilities/methods.php";
                 <span class="icon-bar"></span>
             </button>
             <?php
-            if ($_SESSION['login_state'] == true) {
-                if (isset($_SESSION['user_role']) && !empty($_SESSION['user_role'])) {
-                    if ($_SESSION['user_role'] == 'teacher') {
+            if (isset($_SESSION['login_state']) && $_SESSION['login_state'] == true) {
+                if (isset($_SESSION['role']) && !empty($_SESSION['role'])) {
+                    if ($_SESSION['role'] == 0) {
                         echo '<a class="navbar-brand" href="#">Πλατφόρμα Καθηγητή</a>';
-                    } else if ($_SESSION['user_role'] == 'student') {
+                    } else if ($_SESSION['role'] == 1) {
                         echo '<a class="navbar-brand" href="#">Πλατφόρμα Μαθητή</a>';
                     }
                 } else {
                     echo '<a class="navbar-brand" href="#">Πλατφόρμα Διπλωματικών</a>';
                 }
-            }else{
+            } else {
                 echo '<a class="navbar-brand" href="#">Πλατφόρμα Διπλωματικών</a>';
             }
 
@@ -42,10 +42,10 @@ include_once "utilities/methods.php";
         <?php
         if (isset($_SESSION['login_state']) && !empty($_SESSION['login_state'])) {
             if ($_SESSION['login_state'] == true) {
-                if (isset($_SESSION['user_role']) && !empty($_SESSION['user_role'])) {
-                    if ($_SESSION['user_role'] == 'teacher') {
+                if (isset($_SESSION['role']) && !empty($_SESSION['role'])) {
+                    if ($_SESSION['role'] == 0) {
                         include_once "header_options_teacher.php";
-                    } else if ($_SESSION['user_role'] == 'student') {
+                    } else if ($_SESSION['role'] == 1) {
                         include_once "header_options_student.php";
                     }
                 }
