@@ -93,8 +93,13 @@ include_once "page_parts/login_checker.php";
         $image_f = $target_dir. $_FILES['image']['name'];
         echo"<br>path file : ".$image_f  ;
 
-        $address= (get_user_by_id($link,$selected_teacher_id))->email;
+            $thesis_id=get_thesis_by_name($link,$row['title'])->id;
+            $id_t=get_user_by_thesis($link, $thesis_id)->teacher_id;
+            $temp_user = get_user_by_id($link,$id_t);
+            $address= $temp_user->email;
         $path=$image_f;
+//        $address= (get_user_by_id($link,$selected_teacher_id))->email;
+//        $path=$image_f;
         $message="uparxei aithsh egdhlwshs endiaferontos gia diplwmatikh apo foithth mpeite sto susthma me tis diplwmatikes";
         send_mail_to_user($address,$message,$path);
         }
@@ -166,3 +171,4 @@ include_once "page_parts/login_checker.php";
 
 </body>
 </html>
+
