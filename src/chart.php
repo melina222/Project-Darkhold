@@ -11,7 +11,7 @@ $result1 = mysqli_query($link, $average_score_per_teacher);
 $result2 = mysqli_query($link, $max_thesis_teacher_per_year);
 $result3 = mysqli_query($link, $average_thesis_completion_time);
 $rows = array();
-$rows1 = array();
+$rows1 = array(); 
 $rows2 = array();
 $rows3 = array();
 // loop over the results of the query and input data into data structure

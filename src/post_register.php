@@ -30,7 +30,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST" && isset($_POST['register'])) {
     //showAlertDialogMethod($emailPass . "< " . $role . " " . $math . "-" . intval($math) . "-" . $_SESSION['math_eval']);
     if (empty($emailPass) || empty($math)) {
         showAlertDialogMethod("Συμπληρωστε όλα τα πεδία");
-    }
+    } 
 
     if (isset($_SESSION['confirmation_code']) && !empty($_SESSION['confirmation_code'])) {
         if ($emailPass == $_SESSION['confirmation_code'] && intval($math) == $_SESSION['math_eval']) {
