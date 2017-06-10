@@ -26,6 +26,21 @@ function get_role_string($role_int)
     }
 }
 
+function get_user_by_id($link, $user_id)
+{
+    include("user.php");
+    $sql = "SELECT * "
+        . "FROM user WHERE id='$user_id' ";
+    $user = null;
+    $result = mysqli_query($link, $sql) or die(mysqli_error($link));
+    $count = mysqli_num_rows($result);
+    if ($count == 1) {
+        $row = mysqli_fetch_assoc($result);
+        $user = new User($row['fname'], $row['username'], $row['lname'], $row['email'], $row['role'], $row['password'], $row['id']);
+    }
+    return $user;
+}
+
 function get_user_by_username($link, $username)
 {
     include("user.php");
@@ -74,6 +89,31 @@ function add_user($link, $fname, $lname, $email, $username, $password, $role)
     } else {
         mysqli_rollback($link);
         showAlertDialogMethod("Αδυναμία εισαγωγής νεου χρήστη");
+        return false;
+    }
+}
+
+/*function update_thesis_state($link,$state,$thesis_id,$student_id){
+
+    $sql="UPDATE the SET katastash=$anazhthsh WHERE id_diplwmatikhs=$title " ;
+}*/
+
+
+function update_thesis_application_state($link, $state, $thesis_id, $student_id)
+{
+    mysqli_autocommit($link, false);
+    $sql = "UPDATE thesis_application
+            SET state='$state'
+            WHERE thesis_application.thesis_id = '$thesis_id' AND thesis_application.user_id='$student_id'";
+
+    $result = mysqli_query($link, $sql);
+    if ($result) {
+        mysqli_commit($link);
+        //showAlertDialogMethod("OK");
+        return true;
+    } else {
+        mysqli_rollback($link);
+        //showAlertDialogMethod("NOT OK");
         return false;
     }
 }
@@ -230,6 +270,17 @@ function get_thesis_for_teacher_that_students_applied_for($link, $teacher_id)
     $result = mysqli_query($link, $sql) or die(mysqli_error($link));
     $count = mysqli_num_rows($result);
     if ($count >= 1) {
+        return $result;
+    }
+    return null;
+}
+
+function get_thesis_by_id($link, $thesis_id)
+{
+    $sql = "SELECT * FROM thesis WHERE id='$thesis_id'";
+    $result = mysqli_query($link, $sql) or die(mysqli_error($link));
+    $count = mysqli_num_rows($result);
+    if ($count == 1) {
         return $result;
     }
     return null;
@@ -441,6 +492,32 @@ function getLessonsFromDatabase($link)
     }
 }
 
+function get_approved_users_for_thesis($link, $thesis_id)
+{
+    $sql = "SELECT student_number FROM thesis WHERE id='$thesis_id'";
+    $result = mysqli_query($link, $sql) or die(mysqli_error($link));
+    $count = mysqli_num_rows($result);
+    if ($count == 1) {
+        while ($row = $result->fetch_assoc()) {
+            return $row['student_number'];
+        }
+    }
+    return null;
+}
+
+function get_thesis_applicants($link, $thesis_id)
+{
+    $sql = "SELECT COUNT(id) as num FROM thesis_application WHERE 	thesis_id='$thesis_id' AND state=1";
+    $result = mysqli_query($link, $sql) or die(mysqli_error($link));
+    $count = mysqli_num_rows($result);
+    if ($count == 1) {
+        while ($row = $result->fetch_assoc()) {
+            return $row['num'];
+        }
+    }
+    return null;
+}
+
 
 function sendEmail($email, $code)
 {
@@ -457,7 +534,7 @@ function sendEmail($email, $code)
     $mail->Username = "icsd12013";
     $mail->Password = "maragk123!";
     $mail->SMTPDebug = true;
-    $mail->Debugoutput = "echo";
+    $mail->Debugoutput = "error_log";
     $mail->SetFrom("icsd12013@icsd.aegean.gr", "");
     $mail->AddReplyTo("icsd12013@icsd.aegean.gr", "");
     $mail->AddAddress($email, "");
@@ -467,7 +544,36 @@ function sendEmail($email, $code)
     $mail->IsHTML(true);
     $mail->MsgHTML($msg);
     $mail->Send();
-    showAlertDialogMethod("yolarmentos");
+}
+
+function send_mail_to_user($email, $message, $path = "path")
+{
+    require_once 'email_related/class.phpmailer.php';
+    ini_set('display_errors', 1);
+    $mail = new PHPMailer();
+    $mail->charSet = 'utf-8';
+    $mail->IsSMTP();
+    $mail->Host = "smtp.aegean.gr";
+    $mail->SMTPAuth = true;
+    $mail->Port = 587;
+    $mail->AuthType = "LOGIN";
+    $mail->SMTPSecure = "tls";
+    $mail->Username = "icsd12013";
+    $mail->Password = "maragk123!";
+    $mail->SMTPDebug = true;
+    $mail->Debugoutput = "error_log";
+    $mail->SetFrom("icsd12013@icsd.aegean.gr", "");
+    $mail->AddReplyTo("icsd12013@icsd.aegean.gr", "");
+    $mail->AddAddress($email, "");
+    $mail->Subject = "Σύστημα διπλωματικών Πανεπιστήμιο Αιγαίου";
+    /* $msg = "Μάστορα έχουμε εκδρομή, θα έρθεις;";*/
+    if ($path != "path") {
+        $mail->AddAttachment($path, $message, $encoding = 'base64', $type = 'application/pdf');      // attachment
+    }
+    $msg = $message;
+    $mail->IsHTML(true);
+    $mail->MsgHTML($msg);
+    $mail->Send();
 }
 
 ?>
