@@ -44,6 +44,14 @@ include_once "page_parts/login_checker.php";
 
         }
         if ($_SERVER['REQUEST_METHOD'] == "POST" && isset($_POST['upload'])) {
+            echo"<br> id:".$_SESSION['user_id'];
+
+            $selected_thesis = mysqli_real_escape_string($link, $_POST['selected-thesis']);
+            //showAlertDialogMethod("selected thesis id" . $selected_thesis);
+
+            insert_thesis_apply_for_student($link, $selected_thesis, $_SESSION['user_id']);
+
+            change_thesis_state($link, $selected_thesis, 2);
 
             // TODO Teacher id
             $selected_teacher_id = mysqli_real_escape_string($link, $_POST['selected-teacher-id']);
@@ -84,9 +92,8 @@ include_once "page_parts/login_checker.php";
         move_uploaded_file($_FILES['image']['tmp_name'], $target_dir. $_FILES['image']['name']);
         $image_f = $target_dir. $_FILES['image']['name'];
         echo"<br>path file : ".$image_f  ;
-        $thesis_id=get_thesis_by_name($link,$row['title'])->id;
-        $id_t=get_user_by_thesis($link, $thesis_id)->teacher_id;
-        $address= (get_user_by_id($link,$id_t))->email;
+
+        $address= (get_user_by_id($link,$selected_teacher_id))->email;
         $path=$image_f;
         $message="uparxei aithsh egdhlwshs endiaferontos gia diplwmatikh apo foithth mpeite sto susthma me tis diplwmatikes";
         send_mail_to_user($address,$message,$path);
