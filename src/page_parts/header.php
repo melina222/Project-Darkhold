@@ -17,15 +17,15 @@ include_once "utilities/methods.php";
             if (isset($_SESSION['login_state']) && $_SESSION['login_state'] == true) {
                 if (isset($_SESSION['role']) && !empty($_SESSION['role'])) {
                     if ($_SESSION['role'] == 0) {
-                        echo '<a class="navbar-brand" href="#">Πλατφόρμα Καθηγητή</a>';
+                        echo '<a class="navbar-brand" href="index.php">Πλατφόρμα Καθηγητή</a>';
                     } else if ($_SESSION['role'] == 1) {
-                        echo '<a class="navbar-brand" href="#">Πλατφόρμα Μαθητή</a>';
+                        echo '<a class="navbar-brand" href="index.php">Πλατφόρμα Μαθητή</a>';
                     }
                 } else {
-                    echo '<a class="navbar-brand" href="#">Πλατφόρμα Διπλωματικών</a>';
+                    echo '<a class="navbar-brand" href="index.php">Πλατφόρμα Διπλωματικών</a>';
                 }
             } else {
-                echo '<a class="navbar-brand" href="#">Πλατφόρμα Διπλωματικών</a>';
+                echo '<a class="navbar-brand" href="index.php">Πλατφόρμα Διπλωματικών</a>';
             }
 
             if (isset($_SESSION['login_state']) && !empty($_SESSION['login_state'])) {
@@ -42,15 +42,19 @@ include_once "utilities/methods.php";
         <?php
         if (isset($_SESSION['login_state']) && !empty($_SESSION['login_state'])) {
             if ($_SESSION['login_state'] == true) {
-                if (isset($_SESSION['role']) && !empty($_SESSION['role'])) {
-                    if ($_SESSION['role'] == 0) {
-                        include_once "header_options_teacher.php";
-                    } else if ($_SESSION['role'] == 1) {
-                        include_once "header_options_student.php";
-                    }
+                //showAlertDialogMethod("<" . $_SESSION['role'] . ">");
+                $user_role = $_SESSION['role'];
+                //if (isset($user_role) && !empty($user_role)) {
+                //showAlertDialogMethod(">" . $user_role);
+                if ($user_role == 0) {
+                    include_once "header_options_teacher.php";
+                } else if ($user_role == 1) {
+                    include_once "header_options_student.php";
                 }
+                //  }
             }
         }
+
         ?>
     </div>
 </nav>
