@@ -65,12 +65,12 @@ if ($_SERVER['REQUEST_METHOD'] == "POST" && isset($_POST['upload'])) {
         $message=$send." ".$_POST['message'];
         echo"<br>To μηνυμα που θα σταλεί είναι το εξής: '". $message."'";
         $adress=$_POST['name1'];
-        echo "<p><a href='mail.php?  value1=$adress&value2=$message &value3=$path'>Αποστολή του αρχειου αστον καθγητή </a>";
+        echo "<p><a href='mail.php?value1=$adress&value2=$message&value3=$path'>Αποστολή του αρχειου στον καθγητή </a>";
         $adress=$_POST['name2'];
-        echo "<p><a href='mail.php?  value1=$adress&value2= $message&value3=$path'>Αποστολή στον πρωτο συμφοιτητή </a>";
+        echo "<p><a href='mail.php?value1=$adress&value2=$message&value3=$path'>Αποστολή στον πρωτο συμφοιτητή </a>";
         $adress=$_POST['name3'];
 
-        echo "<p><a href='mail.php?  value1=$adress&value2= $message&value3=$path'>Αποστολή στον δεύτερο συμφοιτητή </a>";
+        echo "<p><a href='mail.php?value1=$adress&value2=$message&value3=$path'>Αποστολή στον δεύτερο συμφοιτητή </a>";
 
 
 
