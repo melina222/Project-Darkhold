@@ -44,6 +44,12 @@ include_once "page_parts/login_checker.php";
 
         }
         if ($_SERVER['REQUEST_METHOD'] == "POST" && isset($_POST['upload'])) {
+
+            // TODO Teacher id
+            $selected_teacher_id = mysqli_real_escape_string($link, $_POST['selected-teacher-id']);
+
+            showAlertDialogMethod($selected_teacher_id);
+
             // TODO send mail to teacher
             $image = addslashes(file_get_contents($_FILES['image']['tmp_name'])); //SQL Injection defence!
             $image_name = addslashes($_FILES['image']['name']);
@@ -135,23 +141,12 @@ include_once "page_parts/login_checker.php";
                     echo '<h5 id="align_start" style="">' . $row['publication_date'] . '</h5>';
                     echo '</td>';
                     echo '<td>';
-        ?>
-
-        <div id="content">
-            <form method="post" action="search_thesis.php" method="post" enctype="multipart/form-data">
-                <input type="hidden" name="size" value="1000000" />
-                <div>
-                    <input type="file" name="image" />
-                </div>
-
-                <div>
-                    <input type="submit" name="upload" value="upload CV">
-                </div>
-        <?php
-
                     echo '<form action="search_thesis.php" method="post" enctype="multipart/form-data">';
                     echo ' <input type="hidden" id="selected-thesis" name="selected-thesis" value="' . $row['id'] . '">';
-                    echo '<button type="submit" name="apply" class="btn btn-primary">Αίτηση</button>';
+                    echo ' <input type="hidden" id="selected-teacher-id" name="selected-teacher-id" value="' . $row['teacher_id'] . '">';
+                    echo '<input type="hidden" name="size" value="1000000" />';
+                    echo ' <input type="file" name="image" />';
+                    echo '<button type="submit" name="upload" class="btn btn-primary">Upload CV</button>';
                     echo '</form>';
                     echo '</td>';
                     echo '</tr>';
