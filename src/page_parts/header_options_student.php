@@ -4,7 +4,7 @@
         <li><a href="search_thesis.php">Αναζήτηση Δηπλωματικής</a></li>
         <li><a href="student_apply_form.php">Αιτήσεις</a></li>
         <li><a href="student_chat.php">Chat</a></li>
+        <li><a href="chart.php">Chart</a></li>
         <li><a href="student_send_files.php">Αποστολή αρχείων</a></li>
-        <li><a href="student_cv.php">Βιογραφικό</a></li>
     </ul>
 </div><!--/.nav-collapse -->
