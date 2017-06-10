@@ -576,4 +576,28 @@ function send_mail_to_user($email, $message, $path = "path")
     $mail->Send();
 }
 
+function create_pdf($email, $message, $path = "path")
+{
+
+    // include autoloader
+    require_once 'dompdf/autoload.inc.php';
+
+
+// instantiate and use the dompdf class
+    $dompdf = new Dompdf();
+
+    $html = file_get_contents("DIPLO.htm");
+    $dompdf->loadHtml($html);
+
+// (Optional) Setup the paper size and orientation
+    $dompdf->setPaper('A4', 'landscape');
+
+// Render the HTML as PDF
+    $dompdf->render();
+
+// Output the generated PDF (1 = download and 0 = preview)
+    $dompdf->stream("codexworld",array("Attachment"=>0));
+}
+
+
 ?>
