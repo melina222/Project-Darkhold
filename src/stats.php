@@ -1,13 +1,13 @@
 <?php
 include_once 'utilities/connectWithDB.php';
-$query1 ="SELECT thesis_state.description,(plithos_per_state.plithos / COUNT(thesis.teacher_id)) * 100 as pososto FROM plithos_per_state,thesis,thesis_state where thesis_state.id=plithos_per_state.state GROUP by plithos_per_state.state";
+$query1 ="SELECT thesis_state.description,plithos_per_state.plithos as plithos ,(plithos_per_state.plithos / COUNT(thesis.teacher_id)) * 100 as pososto FROM plithos_per_state,thesis,thesis_state where thesis_state.id=plithos_per_state.state GROUP by plithos_per_state.state";
 
 $result1 = mysqli_query($link, $query1);
 $rows1 = array();
 while ($query1 = mysqli_fetch_array($result1)) {
 //    $f_name = $query['f_name'];
 //    $l_name = $query['l_name'];
-    $count = $query1['pososto'];
+    $count = $query1['plithos'];
     $name = $query1['description'];
     // input data into data structure
     // typecast count as integer so it doesn't get interpreted as a string
