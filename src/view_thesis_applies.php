@@ -31,14 +31,16 @@ include_once "page_parts/login_checker.php";
             $thesis_number_of_student = get_approved_users_for_thesis($link, $selected_thesis);
             $number_of_student = get_thesis_applicants($link, $selected_thesis);
 
+            showAlertDialogMethod("i am in");
             if ($number_of_student < $thesis_number_of_student) {
+                showAlertDialogMethod("i am in");
                 $full_thesis = get_thesis_by_id($link, $selected_thesis);
 
                 update_thesis_application_state($link, 1, $selected_thesis, $selected_student);
                 change_thesis_state($link, $selected_thesis, 3);
                 $user = get_user_by_id($link, $selected_student);
                 while ($row = $full_thesis->fetch_assoc()) {
-                    send_mail_to_user($user->email, "Η αίτηση σας για " . $row['title'] . " έγινε αποδεκτή ");
+                   // send_mail_to_user($user->email, "Η αίτηση σας για " . $row['title'] . " έγινε αποδεκτή ");
                 }
             } else {
                 showAlertDialogMethod("Δεν μπορεις να αναθέσεις την διπλωματική σε παραπάνω άτομα");

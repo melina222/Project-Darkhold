@@ -102,9 +102,9 @@ function add_user($link, $fname, $lname, $email, $username, $password, $role)
 function update_thesis_application_state($link, $state, $thesis_id, $student_id)
 {
     mysqli_autocommit($link, false);
-    $sql = "UPDATE thesis_application
+    $sql = "UPDATE thesis_appication
             SET state='$state'
-            WHERE thesis_application.thesis_id = '$thesis_id' AND thesis_application.user_id='$student_id'";
+            WHERE thesis_appication.thesis_id = '$thesis_id' AND thesis_appication.user_id='$student_id'";
 
     $result = mysqli_query($link, $sql);
     if ($result) {
@@ -507,7 +507,7 @@ function get_approved_users_for_thesis($link, $thesis_id)
 
 function get_thesis_applicants($link, $thesis_id)
 {
-    $sql = "SELECT COUNT(id) as num FROM thesis_application WHERE 	thesis_id='$thesis_id' AND state=1";
+    $sql = "SELECT COUNT(id) as num FROM thesis_appication WHERE thesis_id='$thesis_id' AND state=1";
     $result = mysqli_query($link, $sql) or die(mysqli_error($link));
     $count = mysqli_num_rows($result);
     if ($count == 1) {
