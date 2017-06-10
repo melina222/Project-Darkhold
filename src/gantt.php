@@ -32,9 +32,6 @@ include_once "page_parts/login_checker.php";
             }
             ?>
         </select>
-        <span class="input-group-btn">
-                        <button type="button" id="add-lesson" class="btn btn-success form-control">Προσθήκη</button>
-                    </span>
     </div>
 </div>
 
