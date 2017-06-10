@@ -33,9 +33,11 @@ include_once "page_parts/login_checker.php";
         if ($_SERVER['REQUEST_METHOD'] == "POST" && isset($_POST['apply'])) {
 
             $selected_thesis = mysqli_real_escape_string($link, $_POST['selected-thesis']);
-            showAlertDialogMethod("selected thesis id" . $selected_thesis);
+            //showAlertDialogMethod("selected thesis id" . $selected_thesis);
 
             insert_thesis_apply_for_student($link, $selected_thesis, $_SESSION['user_id']);
+
+            change_thesis_state($link, $selected_thesis, 2);
 
         }
 
