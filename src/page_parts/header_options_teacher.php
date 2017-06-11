@@ -6,7 +6,7 @@
         <li><a href="view_thesis_applies.php">Αιτήσεις Διπλωματικών</a></li>
         <li><a href="chart.php">Chart</a></li>
         <li><a href="gantt.php">Gantt Chart </a></li>
-        <li><a href="#stats">Στατιστικά Στοιχεία</a></li>
+        <li><a href="stats.php">Στατιστικά Στοιχεία</a></li>
         <li><a href="grammateia.php">Γραμματεία</a></li>
         <li><a href="epitroph.php">Επιτροπή</a></li>
     </ul>
