@@ -3,13 +3,82 @@
     <?php
     include_once "page_parts/head.php";
     ?>
+    <SCRIPT LANGUAGE = "JavaScript">
+
+        function setfocus()
+        {
+            document.forms[0].myAge.focus();
+        }
+
+
+        function validate()
+        {
+
+            x=document.myForm;
+
+            at=x.email.value.indexOf("@");
+
+
+            pass=x.password.value;
+
+            var SpecCount;
+            SpecCount = 0;
+            if (pass.indexOf("!") > -1) {SpecCount ++;}
+            if (pass.indexOf("@") > -1) {SpecCount ++;}
+            if (pass.indexOf("#") > -1) {SpecCount ++;}
+            if (pass.indexOf("$") > -1) {SpecCount ++;}
+            if (pass.indexOf("%") > -1) {SpecCount ++;}
+            if (pass.indexOf("^") > -1) {SpecCount ++;}
+            if (pass.indexOf("&") > -1) {SpecCount ++;}
+            if (pass.indexOf("*") > -1) {SpecCount ++;}
+            if (pass.indexOf("(") > -1) {SpecCount ++;}
+            if (pass.indexOf(")") > -1) {SpecCount ++;}
+            if (pass.indexOf("~") > -1) {SpecCount ++;}
+            if (pass.indexOf("`") > -1) {SpecCount ++;}
+            if (pass.indexOf("?") > -1) {SpecCount ++;}
+            if (SpecCount < 1)
+            {alert("The passwords you have selected do not contain any special characters.");
+                submitOK="False";}
+            r=x.result.value;
+            submitOK="True";
+
+            if (at==-1)
+            {
+                alert("Not a valid e-mail");
+                submitOK="False";
+            }
+            if (age<1 || age>100)
+            {
+                alert("Your age must be between 1 and 100");
+                submitOK="False";
+            }
+            if (pass.length<8 )
+            {
+                alert("Your password must be at least than 8 letters ");
+                submitOK="False";
+            }
+            if (r<4||r>4 )
+            {
+                alert("Maybe you are a computer! ");
+                submitOK="False";
+            }
+            if (submitOK=="False")
+            {
+                alert("Your data has not been validated");
+                return false;
+            }
+            else {alert("Your data has been validated");}
+        }
+
+
+    </script>
 </head>
 <body class="container">
 <?php
 include_once "page_parts/header.php";
 ?>
 <div class="page_content">
-    <form action="register.php" method="post" enctype="multipart/form-data">
+    <form name="myForm" action="register.php" method="post" enctype="multipart/form-data" onsubmit="return validate()">
         <div class="form-group">
             <label for="fname">Όνομα:</label>
             <input required="required" type="text" class="form-control" id="fname" name="fname"
@@ -80,7 +149,8 @@ if ($_SERVER['REQUEST_METHOD'] == "POST" && isset($_POST['register'])) {
     $randomPassword = generateRandomString();
     //showAlertDialogMethod($randomPassword);
     // TODO Send email with verification code
-    sendEmail($email, $randomPassword);
+    send_mail_to_user($email, $randomPassword);
+   // sendEmail($email, $randomPassword);
     // TODO Add to session
     $_SESSION['confirmation_code'] = $randomPassword;
     $_SESSION['fname'] = $fname;

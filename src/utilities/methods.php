@@ -43,9 +43,8 @@ function get_user_by_id($link, $user_id)
 
 function get_user_by_thesis($link, $thesis_id)
 {
-    include("thesis.php");
-    $sql = "SELECT * "
-        . "FROM user WHERE id='$thesis_id' ";
+    //include("thesis.php");
+    $sql = "SELECT * FROM user WHERE id='$thesis_id' ";
     $user = null;
     $result = mysqli_query($link, $sql) or die(mysqli_error($link));
     $count = mysqli_num_rows($result);
@@ -592,8 +591,8 @@ function sendEmail($email, $code)
     $mail->Port = 587;
     $mail->AuthType = "LOGIN";
     $mail->SMTPSecure = "tls";
-    $mail->Username = "icsd12013";
-    $mail->Password = "maragk123!";
+    $mail->Username = "icsd11159";
+    $mail->Password = "Panemorfi!1";
     $mail->SMTPDebug = true;
     $mail->Debugoutput = "error_log";
     $mail->SetFrom("icsd12013@icsd.aegean.gr", "");
@@ -619,12 +618,12 @@ function send_mail_to_user($email, $message, $path = "path")
     $mail->Port = 587;
     $mail->AuthType = "LOGIN";
     $mail->SMTPSecure = "tls";
-    $mail->Username = "icsd12013";
-    $mail->Password = "maragk123!";
+    $mail->Username = "icsd11159";
+    $mail->Password = "Panemorfi!1";
     $mail->SMTPDebug = true;
     $mail->Debugoutput = "error_log";
-    $mail->SetFrom("icsd12013@icsd.aegean.gr", "");
-    $mail->AddReplyTo("icsd12013@icsd.aegean.gr", "");
+    $mail->SetFrom("icsd11159@icsd.aegean.gr", "");
+    $mail->AddReplyTo("icsd11027@icsd.aegean.gr", "");
     $mail->AddAddress($email, "");
     $mail->Subject = "Σύστημα διπλωματικών Πανεπιστήμιο Αιγαίου";
     /* $msg = "Μάστορα έχουμε εκδρομή, θα έρθεις;";*/

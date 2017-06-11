@@ -2,8 +2,8 @@
 include_once 'utilities/connectWithDB.php';
 $query1 ="SELECT thesis_state.description,plithos_per_state.plithos as plithos ,(plithos_per_state.plithos / COUNT(thesis.teacher_id)) * 100 as pososto FROM plithos_per_state,thesis,thesis_state where thesis_state.id=plithos_per_state.state GROUP by plithos_per_state.state";
 $query2="SELECT COUNT(thesis.teacher_id) as plithos FROM thesis,user where thesis.teacher_id=user.id ";
-$query3="SELECT COUNT(thesis.teacher_id) as plithos_parous , thesis.title
-FROM thesis WHERE month(thesis.publication_date)=month(CURRENT_TIMESTAMP) and YEAR(thesis.publication_date) = YEAR(CURRENT_TIMESTAMP) and thesis.state=4";
+$query3="SELECT COUNT(thesis.teacher_id) as plithos_parous 
+FROM thesis WHERE month(thesis.completion_date)=month(CURRENT_TIMESTAMP) and YEAR(thesis.completion_date) = YEAR(CURRENT_TIMESTAMP) and thesis.state=4";
 
 $result1 = mysqli_query($link, $query1);
 $result2 = mysqli_query($link, $query2);

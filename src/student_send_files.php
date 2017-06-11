@@ -84,7 +84,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST" && isset($_POST['upload'])) {
 
     echo '<input type="hidden" name="size" value="1000000" />';
     echo ' <input type="file" name="image" />';
-    echo '<button type="submit" name="upload" class="btn btn-primary">Upload CV</button>';
+    echo '<button type="submit" name="upload" class="btn btn-primary">Upload FILE</button>';
 
     echo '</form>';
 

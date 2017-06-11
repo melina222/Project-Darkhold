@@ -21,7 +21,7 @@ if (isset($_POST['namep']) && isset($_POST['path'])) {
     $send=$_POST['namep'];
     $path=$_POST['path'];
 
-    echo "<p><a href='mail.php?  value1=$adress&value2=$send&value3=$path'>Αποστολή του pdf στην γρμματεία </a>";
+    echo "<p><a href='mail.php?  value1=$adress&value2=$send&value3=$path'>Αποστολή του pdf στην γραμματεία </a>";
 
 
 }
@@ -156,12 +156,12 @@ $title=$selected_thesis;
     <div id="content">
         <form method="post" action="grammateia.php" enctype="multipart/form-data">
             <?php
-          echo'<input type="hidden" name="size" value="1000000"/>';
+            echo'<input type="hidden" name="size" value="1000000"/>';
             echo'<div>';
-                echo'<input type="file" name="image"/>';
+            echo'<input type="file" name="image"/>';
             echo'</div>';
 
-            echo'<div>';
+
                $user_id=$_SESSION['user_id'];
 
                 echo'<input type="hidden" id="user_id" name="user_id" value='.$user_id.';>';
