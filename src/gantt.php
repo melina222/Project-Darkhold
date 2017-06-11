@@ -59,15 +59,15 @@ include_once "page_parts/login_checker.php";
 
             data.addRows([
                 ['Research', 'Δεν έχουν ανατεθεί',
-                    new Date(2017, 7, 12), new Date(2017, 7, 12), null, 100, null],
+                    new Date(2017, 0, 1), new Date(2017, 0, 3), null, 100, null],
                 ['Write', 'Yπο έγκριση',
-                    null, new Date(2017, 7, 13), daysToMilliseconds(1), 25, 'Research,Outline'],
+                    null, new Date(2017, 0, 4), daysToMilliseconds(1), 0, 'Research'],
                 ['Cite', 'Έχουν ανατεθεί',
-                    null, new Date(2017, 7, 14), daysToMilliseconds(1), 20, 'Research'],
+                    null, new Date(2017, 2, 9), daysToMilliseconds(64), 0, 'Research'],
                 ['Complete', 'Έτοιμες για παρουσίαση',
-                    null, new Date(2017, 9, 10), daysToMilliseconds(1), 0, 'Cite,Write'],
+                    null, new Date(2017, 2, 10), daysToMilliseconds(1), 0, 'Cite,Write'],
                 ['Outline', 'Έχουν ολοκληρωθεί',
-                    null, new Date(2017, 9, 20), daysToMilliseconds(1), 100, 'Research']
+                    null, new Date(2017, 2, 20), daysToMilliseconds(10), 100, 'Research']
             ]);
 
             var options = {
