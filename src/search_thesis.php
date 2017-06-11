@@ -105,6 +105,7 @@ include_once "page_parts/login_checker.php";
         }
         if ($_SERVER['REQUEST_METHOD'] == "POST" && isset($_POST['search'])) {
 
+            
             $keyword = mysqli_real_escape_string($link, $_POST['keyword']);
 
 
