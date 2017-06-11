@@ -14,7 +14,7 @@ include_once "page_parts/header.php";
 include_once "page_parts/login_checker.php";
 ?>
 
-
+ 
 <div class="page_content">
 
 </div>
