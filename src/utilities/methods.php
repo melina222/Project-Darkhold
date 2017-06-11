@@ -296,7 +296,7 @@ function get_thesis_for_teacher_that_students_applied_for($link, $teacher_id)
     return null;
 }
 function get_thesis_by_teacher_id($link, $teacher_id){
-    $sql = "SELECT thesis.*,thesis_appication.state FROM thesis,user WHERE user.id = thesis.teacher_id AND user.id = '$teacher_id'";
+    $sql = "SELECT thesis.* FROM thesis,user WHERE user.id = thesis.teacher_id AND user.id = '$teacher_id'";
     $result = mysqli_query($link, $sql) or die(mysqli_error($link));
     $count = mysqli_num_rows($result);
     if ($count >= 1) {

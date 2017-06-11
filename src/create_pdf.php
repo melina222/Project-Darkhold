@@ -17,7 +17,7 @@ $pdf->Ln();
 $pdf->SetFont('times','B',10);
 $pdf->Cell(80,20,"                                                                                  OLOKLHRWSH DIPLWMATIKHS");
 
-$connect=mysqli_connect('localhost','root','','project');
+$connect=mysqli_connect('localhost','root','','operationflashpoint');
  
 if($connect->connect_error)
 {
@@ -27,8 +27,8 @@ if($connect->connect_error)
      //   include ('conectmysql.php');
 	
 
-	 $_SESSION['title'] = $_GET["value1"];
-	   $title = (int) $_SESSION['title'];
+	 $_SESSION['id'] = $_GET["value1"];
+	   $title = (int) $_SESSION['id'];
 		settype($title, "int");
 	//$title=intval($_SESSION['title']);
 
@@ -42,19 +42,25 @@ if($connect->connect_error)
   //$file_size = $_FILES['file']['size'];
  //$mime = $_FILES['file']['type'];
  //$image_format = strtolower(pathinfo($_FILES['file']['name'], PATHINFO_EXTENSION));
-        $sql = "SELECT * FROM diplwmatikh WHERE id_diplwmatikhs=$title";
+        $sql = "SELECT * FROM thesis WHERE id=$title";
+$sql2 = "SELECT * FROM user WHERE id=$title2";
 			$result2=$connect->query($sql);
+$result3=$connect->query($sql2);
+if(mysqli_num_rows($result3)){
+	while($row1=$result3->fetch_assoc()){
 
+        $id_role_f=$row1['id'];
+        $epitheto_f=$row1['lname'];
+
+}}
 if(mysqli_num_rows($result2)){
 	while($row1=$result2->fetch_assoc()){
 		 $title = $row1['title'];
-           // $katastash = $row1['katastash'];
-            $id_role = $row1['id_role'];
-			$id_role_f=$row1['id_role_f'];
-			$epitheto_f=$row1['epitheto_f'];
-            $perigrafh = $row1['perigrafh'];
-            $stoxos = $row1['stoxos'];
-            $vathmos = $row1['vathmos'];
+
+            $id_role = $row1['teacher_id'];
+            $perigrafh = $row1['description'];
+            $stoxos = $row1['target'];
+            $vathmos = $row1['grade'];
 			$upografh=$row1['upografh'];
 		$pdf->Ln();
 $pdf->Cell(30,7,"TITLE:");
@@ -84,7 +90,7 @@ $pdf->Cell(100,7,$epitheto_f);
   $pdf->Ln();
  $pdf->Cell(30,7,"----------------------------------------------------------------------------------------------------------------------------------------------------------------------");
   $pdf->Ln();
-$pdf->Cell(30,7,"VATHMOS:");
+$pdf->Cell(30,7,"GRADE:");
 $pdf->Cell(100,7,$vathmos); 
   $pdf->Ln();
  $pdf->Cell(30,7,"----------------------------------------------------------------------------------------------------------------------------------------------------------------------");

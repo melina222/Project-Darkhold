@@ -46,7 +46,113 @@ include_once "page_parts/login_checker.php";
             change_thesis_state($link, $selected_thesis, 5);
             set_grade_to_thesis($link, $selected_thesis, $selected_grade);
 
+            //TODO PDF UPDATE
 
+
+            if (isset($_POST['namep']) && isset($_POST['path'])) {
+                $adress='icsd16164@icsd.aegean.gr';//einai ths grammateias
+                $send=$_POST['namep'];
+                $path=$_POST['path'];
+
+                echo "<p><a href='mail.php?  value1=$adress&value2=$send&value3=$path'>Αποστολή του pdf στην γρμματεία </a>";
+
+
+            }
+
+
+
+            if (isset($_POST['upload'])) {
+
+                $title=$selected_thesis;
+                $image = addslashes(file_get_contents($_FILES['image']['tmp_name'])); //SQL Injection defence!
+                $image_name = addslashes($_FILES['image']['name']);
+                $mime = mysqli_real_escape_string($connect, $_FILES['image']['type']);
+                //getimagesize($_FILES["fileToUpload"]["tmp_name"]
+                echo"<br> name:".$image_name ;
+                //$image_dir='C:/xampp/htdocs/project/';
+
+                $target_dir = "uploads/";
+                $target_file = $target_dir . basename($_FILES["image"]["name"]);
+                $uploadOk = 1;
+                $imageFileType = pathinfo($target_file,PATHINFO_EXTENSION);
+
+// Check if file already exists
+                if (file_exists($target_file)) {
+                    echo "Sorry, file already exists.";
+                    $uploadOk = 0;
+                }
+
+// Allow certain file formats
+                if($imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg"
+                    && $imageFileType != "gif" ) {
+                    echo "Sorry, only JPG, JPEG, PNG & GIF files are allowed.";
+                    $uploadOk = 0;
+                }
+// Check if $uploadOk is set to 0 by an error
+                if ($uploadOk == 0) {
+                    echo "Sorry, your file was not uploaded.";
+// if everything is ok, try to upload file
+                } else {
+                    if (move_uploaded_file($_FILES["image"]["tmp_name"], $target_file)) {
+                        echo "The file ". basename( $_FILES["image"]["name"]). " has been uploaded.";
+                    } else {
+                        echo "Sorry, there was an error uploading your file.";
+                    }
+                }
+
+                move_uploaded_file($_FILES['image']['tmp_name'], $target_dir. $_FILES['image']['name']);
+                $image_f = $target_dir. $_FILES['image']['name'];
+                echo"<br>path file : ".$image_f  ;
+                //$number = mysqli_real_escape_string($connect, $_POST['textfield']);
+                if(substr($mime,0,5)=='image')
+                {
+                    if(mysqli_query($connect,("UPDATE operationflashpoint SET upografh='$image' WHERE id=$title")));
+                    {
+                        //  $adress="icsd16164@icsd.aegean.gr";
+                        // echo "<img src="data:image/png;base64,'.base64_encode($row['image']).'">"
+                        echo'<br>Η Εικόνα ανέβηκε στην βάση!<br>';
+
+                        echo "<p><a href='create_pdf.php?  value1=$title&value2=$user_id&value3=$image_f'>Δημιουργία pdf με τα στοιχεια της διπλωματικής και τις υπογραφές για αποστολή(δεξι κλικ) </a>";
+                        echo"<br>Κατέβασε το pdf και δώσε το ονομα(π.χ. test.php) και το path(π.χ.C:/xampp/htdocs/project/test.pdf) που το αποθηκευσες";
+                        ?>
+                        <form role="form" action="" method="POST" enctype="multipart/form-data">
+
+
+                            <br>
+
+                            Όνομα PDF:
+                            <input type="text" name="namep">
+                            <br>
+
+                            Path :
+                            <input type="text" name="path">
+                            <br>
+
+                            <input type="submit" id="submit" name="submit" value="Αποθήκευση">
+
+                        </form>
+                        <?php
+                        echo"<br>".$msg;
+                    }}else
+                {
+                    echo 'its not an image<br>';
+                }}
+
+                ?>
+        <br>
+        Ανέβασε τις υπογραφές των καθηγητών:
+        <div id="content">
+            <form method="post" action="view_thesis_applies.php" enctype="multipart/form-data">
+                <input type="hidden" name="size" value="1000000" />
+                <div>
+                    <input type="file" name="image" />
+                </div>
+
+                <div>
+                    <input type="submit" name="upload" value="upload image">
+                </div>
+            </form>
+        <?php
 
 
         }
@@ -78,7 +184,7 @@ include_once "page_parts/login_checker.php";
             }
         }
 
-        $all_thesis = get_thesis_for_teacher_that_students_applied_for($link, $_SESSION['user_id']);
+        $all_thesis =  get_thesis_for_teacher_that_students_applied_for($link, $_SESSION['user_id']);
         if ($all_thesis == null) {
 
             echo '<h5>Δεν βρέθηκαν αποτελέσματα</h5>';
@@ -124,7 +230,7 @@ include_once "page_parts/login_checker.php";
                 echo '<h5 id="align_start" style="">' . get_full_student_name_for_thesis($link, $row['user_id']) . '</h5>';
                 echo '</td>';
                 // showAlertDialogMethod($row['state']);
-                if ($row['state'] == 0) {
+                if ($row['state'] == 2) {
                     echo '<td>';
                     echo '<form action="view_thesis_applies.php" method="post" enctype="multipart/form-data">';
                     echo '<input type="hidden" id="selected-thesis" name="selected-thesis" value="' . $row['id'] . '">';
@@ -132,7 +238,7 @@ include_once "page_parts/login_checker.php";
                     echo '<button type="submit" name="apply" class="btn btn-primary">Ανάθεση</button>';
                     echo '</form>';
                     echo '</td>';
-                } else if ($row['state'] == 1) {
+                } else if ($row['state'] == 3) {
                     echo '<td>';
                     echo '<form action="view_thesis_applies.php" method="post" enctype="multipart/form-data">';
                     echo '<input type="hidden" id="selected-thesis" name="selected-thesis" value="' . $row['id'] . '">';
@@ -140,7 +246,7 @@ include_once "page_parts/login_checker.php";
                     echo '<button type="submit" name="present" class="btn btn-warning">Παρουσίαση</button>';
                     echo '</form>';
                     echo '</td>';
-                } else if ($row['state'] == 2) {
+                } else if ($row['state'] == 4) {
                     echo '<td>';
                     echo '<form action="view_thesis_applies.php" method="post" enctype="multipart/form-data">';
                     echo '<input type="hidden" id="selected-thesis" name="selected-thesis" value="' . $row['id'] . '">';

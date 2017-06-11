@@ -5,6 +5,7 @@
 	   $send =  $_SESSION['send'];
 	    $_SESSION['path'] = $_GET["value3"];
 	   $path =  $_SESSION['path'];
+	   echo"<br>PATH:".$path;
 require_once 'email_related/class.phpmailer.php';
 require_once 'email_related/class.smtp.php';
 require_once 'email_related/class.pop3.php';

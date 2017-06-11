@@ -7,7 +7,7 @@
         <li><a href="chart.php">Chart</a></li>
         <li><a href="gantt.php">Gantt Chart </a></li>
         <li><a href="#stats">Στατιστικά Στοιχεία</a></li>
-        <li><a href="#grammateia">Γραμματεία</a></li>
+        <li><a href="grammateia.php">Γραμματεία</a></li>
         <li><a href="epitroph.php">Επιτροπή</a></li>
     </ul>
 </div><!--/.nav-collapse -->
