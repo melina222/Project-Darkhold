@@ -79,7 +79,7 @@ include_once "page_parts/login_checker.php";
             chart.draw(data, options);
         }
     </script>
-</head>
+</head> 
 <body>
 <div id="chart_div"></div>
 </body>
