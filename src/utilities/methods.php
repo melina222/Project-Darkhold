@@ -25,7 +25,7 @@ function get_role_string($role_int)
         return "student";
     }
 } 
-
+ 
 function get_user_by_id($link, $user_id)
 {
     include("user.php");
