@@ -33,7 +33,7 @@ $mail->SetFrom("icsd11159@icsd.aegean.gr", "icsd11159");
 $mail->AddReplyTo("icsd11159@icsd.aegean.gr", "icsd11159");
 $mail->AddAddress($adress, "icsd16164");
 $mail->AddAddress("tleoutsakos@aegean.gr", "thodoris");
-$mail->Subject = "V-Strom Greek Riders";
+
 
 //$msg = "Επιτυχής εγγραφή. Κάνε κλικ στο σύνδεσμο για να επιλέξεις ρόλο χρήστη.";
 //$msg = "LINK";
@@ -43,7 +43,7 @@ if ( $path!=NULL) {
 $mail->AddAttachment($path,$send,$encoding = 'base64', $type = 'application/pdf');      // attachment
 }
 $mail->IsHTML(true);
-$mail->Subject = 'Here is the subject';
+$mail->Subject = "SYSTEM THESIS STUDENT  AEGEAN UNIVERSITY ICSD";
 $mail->Body    = $send;
 $mail->AltBody = 'This is the body in plain text for non-HTML mail clients';
 if(!$mail->Send()) {
