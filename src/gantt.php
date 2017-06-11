@@ -25,11 +25,11 @@ include_once "page_parts/login_checker.php";
     <div class="input-group">
         <select class="form-control" name="thesis-selector" type="text" id="thesis-selector"
                 style="margin-top: 10px;margin-bottom: 10px">
-            <?php
+            <?php/*
             $result = get_thesis_for_teacher_that_students_applied_for($link, $_SESSION['teacher_id']);
             while ($thesis = $result->fetch_assoc()) {
                 echo '<option value="' . $thesis["id"] . '">' . $thesis["name"] . '</option>';
-            }
+            }*/
             ?>
         </select>
     </div>
@@ -58,16 +58,16 @@ include_once "page_parts/login_checker.php";
             data.addColumn('string', 'Dependencies');
 
             data.addRows([
-                ['Research', 'Find sources',
-                    new Date(2015, 0, 1), new Date(2015, 0, 5), null, 100, null],
-                ['Write', 'Write paper',
-                    null, new Date(2015, 0, 9), daysToMilliseconds(3), 25, 'Research,Outline'],
-                ['Cite', 'Create bibliography',
-                    null, new Date(2015, 0, 7), daysToMilliseconds(1), 20, 'Research'],
-                ['Complete', 'Hand in paper',
-                    null, new Date(2015, 0, 10), daysToMilliseconds(1), 0, 'Cite,Write'],
-                ['Outline', 'Outline paper',
-                    null, new Date(2015, 0, 6), daysToMilliseconds(1), 100, 'Research']
+                ['Research', 'Δεν έχουν ανατεθεί',
+                    new Date(2017, 7, 12), new Date(2017, 7, 12), null, 100, null],
+                ['Write', 'Yπο έγκριση',
+                    null, new Date(2017, 7, 13), daysToMilliseconds(1), 25, 'Research,Outline'],
+                ['Cite', 'Έχουν ανατεθεί',
+                    null, new Date(2017, 7, 14), daysToMilliseconds(1), 20, 'Research'],
+                ['Complete', 'Έτοιμες για παρουσίαση',
+                    null, new Date(2017, 9, 10), daysToMilliseconds(1), 0, 'Cite,Write'],
+                ['Outline', 'Έχουν ολοκληρωθεί',
+                    null, new Date(2017, 9, 20), daysToMilliseconds(1), 100, 'Research']
             ]);
 
             var options = {
