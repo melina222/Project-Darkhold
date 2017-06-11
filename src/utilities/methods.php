@@ -287,7 +287,7 @@ function get_thesis_by_state($link, $state, $user_id)
 function get_thesis_for_teacher_that_students_applied_for($link, $teacher_id)
 {
     //showAlertDialogMethod($teacher_id);
-    $sql = "SELECT thesis.*,thesis_appication.user_id,thesis_appication.state FROM thesis,thesis_appication,user WHERE user.id = thesis.teacher_id AND user.id = '$teacher_id' AND thesis_appication.thesis_id = thesis.id";
+    $sql = "SELECT thesis.*,thesis_appication.user_id,thesis_appication.state as stat FROM thesis,thesis_appication,user WHERE user.id = thesis.teacher_id AND user.id = '$teacher_id' AND thesis_appication.thesis_id = thesis.id";
     $result = mysqli_query($link, $sql) or die(mysqli_error($link));
     $count = mysqli_num_rows($result);
     if ($count >= 1) {
