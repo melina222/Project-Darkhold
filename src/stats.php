@@ -4,8 +4,8 @@ $query1 ="SELECT thesis_state.description,plithos_per_state.plithos as plithos ,
 $query2="SELECT COUNT(thesis.teacher_id) as plithos FROM thesis,user where thesis.teacher_id=user.id ";
 $query3="SELECT COUNT(thesis.teacher_id) as plithos_parous , thesis.title
 FROM thesis WHERE month(thesis.publication_date)=month(CURRENT_TIMESTAMP) and YEAR(thesis.publication_date) = YEAR(CURRENT_TIMESTAMP) and thesis.state=4";
-$result1 = mysqli_query($link, $query1);
 
+$result1 = mysqli_query($link, $query1);
 $result2 = mysqli_query($link, $query2);
 $result3 = mysqli_query($link, $query3);
 
