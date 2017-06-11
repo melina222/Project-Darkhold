@@ -69,12 +69,12 @@ else
     }
 public function DisplayMessage()  {
 	 try{
-            $dbh=new PDO("mysql:host=localhost;bdname:project","root","");
+            $dbh=new PDO("mysql:host=localhost;bdname:flashoperationploint","root","");
         }catch(Exception $exception){
             die("ERROR");
         }
         try {
-            $dbh = new PDO("mysql:host=localhost;dbname=project", "root", "");
+            $dbh = new PDO("mysql:host=localhost;dbname=flashoperationploint", "root", "");
             /*** echo a message saying we have connected ***/
             echo 'Connected to database';
         }
@@ -85,7 +85,7 @@ public function DisplayMessage()  {
 		$ChatReq=$dbh->prepare("SELECT * FROM chat ORDER BY ChatId DESC");
 		$ChatReq->execute();
 		while ($DataChat= $ChatReq->fetch()){
-			$UserReq->$dbh->prepare("SELECT * FROM user WHERE id_role=:chatuserID");
+			$UserReq->$dbh->prepare("SELECT * FROM user WHERE id=:chatuserID");
 		    $UserReq->execute(array(
 			'id_role'=>$DataChat['chatuserID']
 			));

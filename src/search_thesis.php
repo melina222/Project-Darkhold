@@ -92,11 +92,28 @@ include_once "page_parts/login_checker.php";
         move_uploaded_file($_FILES['image']['tmp_name'], $target_dir. $_FILES['image']['name']);
         $image_f = $target_dir. $_FILES['image']['name'];
         echo"<br>path file : ".$image_f  ;
+            $thesis= $_POST['selected-thesis'];
+            echo'<br>iddd'.$thesis;
+        $s="SELECT * FROM thesis WHERE id=$thesis" ;
+        $result1=$link->query($s);
 
-            $thesis_id=get_thesis_by_name($link,$row['title'])->id;
-            $id_t=get_user_by_thesis($link, $thesis_id)->teacher_id; 
-            $temp_user = get_user_by_id($link,$id_t);
-            $address= $temp_user->email;
+        if(mysqli_query($link,$s)) {
+
+            while ($row1 = $result1->fetch_assoc()) {
+                $id_t = $row1['teacher_id'];
+            }
+        }
+        echo"<br>nah".$id_t;
+            $s="SELECT * FROM user WHERE id=$id_t" ;
+            $result1=$link->query($s);
+
+            if(mysqli_query($link,$s)) {
+
+                while ($row1 = $result1->fetch_assoc()) {
+                    $email = $row1['email'];
+                }
+            }
+            $address= $email;
         $path=$image_f; 
 //        $address= (get_user_by_id($link,$selected_teacher_id))->email;
 //        $path=$image_f;
