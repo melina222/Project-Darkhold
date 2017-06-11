@@ -94,7 +94,7 @@ include_once "page_parts/login_checker.php";
         echo"<br>path file : ".$image_f  ;
 
             $thesis_id=get_thesis_by_name($link,$row['title'])->id;
-            $id_t=get_user_by_thesis($link, $thesis_id)->teacher_id;
+            $id_t=get_user_by_thesis($link, $thesis_id)->teacher_id; 
             $temp_user = get_user_by_id($link,$id_t);
             $address= $temp_user->email;
         $path=$image_f;
